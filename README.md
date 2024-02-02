@@ -2,11 +2,11 @@
 
 This repo represents the coursework for CS 5010!
 
-**Name:** put your full name here
+**Name:** Clifford Yin
 
-**Email:** put your Northeastern email address here
+**Email:** yin.cl@northeastern.edu
 
-**Preferred Name:** put your preferred name here (how shall we address you)
+**Preferred Name:** Clifford
 
 
 

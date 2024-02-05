@@ -1,11 +1,11 @@
 package clinic;
 
-public abstract class AbstractStaff implements Staff {
+public abstract class AbstractStaff implements Person {
 
-  private String job;
-  private String firstName;
-  private String lastName;
-  private EducationLevel education;
+  protected String job;
+  protected String firstName;
+  protected String lastName;
+  protected EducationLevel education;
   
   public void setStaffInfo(String job, String firstName, 
       String lastName, String education) {
@@ -14,11 +14,11 @@ public abstract class AbstractStaff implements Staff {
     this.firstName = firstName;
     this.lastName = lastName;
     
-    if (education == "doctoral") {
+    if (education.equals("doctoral")) {
       this.education = EducationLevel.DOCTORAL;
-    } else if (education == "masters") {
+    } else if (education.equals("masters")) {
       this.education = EducationLevel.MASTERS;
-    } else if (education == "allied") {
+    } else if (education.equals("allied")) {
       this.education = EducationLevel.ALLIED;
     }
     

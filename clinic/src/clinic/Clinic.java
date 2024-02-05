@@ -186,22 +186,21 @@ public class Clinic {
     
   }
   
-  public String displayRoom(int room) {
+  public void displayRoom(int room) {
     
     String displayString;
     Room selectedRoom = this.rooms[room - 1];
     displayString = selectedRoom.display();
     displayString += "\n";
     System.out.print(displayString);
-    return displayString;
     
   }
   
-  public String seatingChart() {
+  public void seatingChart() {
     
     String displayString = "";
-    // Utilize the displayRoom function written above
     
+    // Utilize the displayRoom function written above
     if (this.rooms != null) {
       for (int i = 0; i < this.rooms.length; i++) {
         displayString += rooms[i].display();
@@ -210,7 +209,6 @@ public class Clinic {
     
     displayString += "\n";
     System.out.print(displayString);
-    return displayString;
     
   }
 

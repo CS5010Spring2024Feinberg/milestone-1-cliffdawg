@@ -49,7 +49,15 @@ public class Room {
   }
   
   public boolean checkOccupied() {
-    return this.patients != null;
+    
+    if (this.patients != null) {
+      if (this.patients.length != 0) {
+        return true;
+      }
+    }
+     
+    return false;
+    
   }
   
   public RoomType getType() {
@@ -58,7 +66,7 @@ public class Room {
   
   public String display() {
     
- // First format the room's information, then do the same for its patients
+    // First format the room's information, then do the same for its patients
     String roomDisplay = String.format("Room name: %s, room number: %d, "
         + "room type: %s, room coordinates: (%d, %d) to (%d, %d) \n", 
         this.name, this.number, this.type.toString().toLowerCase(), 

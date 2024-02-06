@@ -38,6 +38,31 @@ Provide instructions on how to use the functionality in your program. If it is i
 
 List any example runs that you have in res/ directory and provide a description of what each example represents or does. Make sure that your example runs are provided as *plain text files*.
 
+examplerun.txt is in my res directory and goes through all of the Clinic functions and how they interact with staff and patients. The output should be:
+
+Room name: Front Waiting Room, room number: 1, room type: waiting, room coordinates: (28, 0) to (35, 5) 
+
+Room name: Front Waiting Room, room number: 1, room type: waiting, room coordinates: (28, 0) to (35, 5) 
+Room name: Triage, room number: 2, room type: exam, room coordinates: (30, 6) to (35, 11) 
+Room name: Inside Waiting Room, room number: 3, room type: waiting, room coordinates: (28, 12) to (35, 19) 
+Room name: Exam_1, room number: 4, room type: exam, room coordinates: (30, 20) to (35, 25) 
+Room name: Surgical, room number: 5, room type: procedure, room coordinates: (26, 13) to (27, 18) 
+
+Room name: Front Waiting Room, room number: 1, room type: waiting, room coordinates: (28, 0) to (35, 5) 
+Patient name: Joe Schmoe, date of birth: 5/6/1995, room number: 1, registration status: true
+
+Room name: Inside Waiting Room, room number: 3, room type: waiting, room coordinates: (28, 12) to (35, 19) 
+Patient name: Tom Smith, date of birth: 1/9/1987, room number: 3, registration status: true
+
+Room name: Inside Waiting Room, room number: 3, room type: waiting, room coordinates: (28, 12) to (35, 19) 
+Patient name: Tom Smith, date of birth: 1/9/1987, room number: 3, registration status: true
+Clinician name: Sally Johnson, job: nurse, education level: allied, NPI: 5234252163
+
+Room name: Inside Waiting Room, room number: 3, room type: waiting, room coordinates: (28, 12) to (35, 19) 
+Patient name: Tom Smith, date of birth: 1/9/1987, room number: 3, registration status: true
+
+Room name: Inside Waiting Room, room number: 3, room type: waiting, room coordinates: (28, 12) to (35, 19) 
+
 
 
 ### Design/Model Changes

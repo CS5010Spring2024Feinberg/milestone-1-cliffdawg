@@ -26,6 +26,8 @@ List all features that are present in your program.
 
 Describe how to run your program from the JAR file. Describe what arguments are needed (if any) and what they mean.
 
+Go to the res folder and run the command java -jar jar.jar clinicfile.txt. The argument clinicfile.txt is the input
+file with the clinic information that the model is supposed to read. The output will be the same as the example run.
 
 
 ### How to Use the Program

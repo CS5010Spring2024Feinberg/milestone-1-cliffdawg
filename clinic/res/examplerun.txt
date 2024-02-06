@@ -1,0 +1,2 @@
+ClinicDriver.java takes the res/clinicfile.txt as the only argument
+

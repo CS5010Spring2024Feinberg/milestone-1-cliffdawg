@@ -1,10 +1,15 @@
 package clinic;
 
-import java.io.*;
+import java.io.IOException;
 import java.io.FileReader;
-import java.util.Arrays;
 import java.io.BufferedReader;
+import java.util.Arrays;
 
+/**
+ * This class represents a clinic. The clinic has a primary
+ * waiting room, an array of rooms, an array of patients, and
+ * an array of staff members.
+ */
 public class Clinic {
   
   Room primaryRoom;
@@ -16,6 +21,11 @@ public class Clinic {
       
   }
   
+  /* 
+   * Reads the input file specified by its file name and path.
+   * Generates objects based on the information presented for
+   * the clinic. 
+   * */
   public void readFile(String fileName) {
       
     BufferedReader reader;
@@ -92,18 +102,23 @@ public class Clinic {
       // Close the reader
       reader.close();
         
-    } catch(IOException e) {
+    } catch (IOException e) {
+      
       System.out.println("File not found!");
         
     }
       
   }
   
+  /* 
+   * Registers a new patient to the clinic using
+   * their given information. 
+   * */
   public void registerNewPatient(String firstName, 
-      String lastName, String DOB) {
+      String lastName, String dob) {
     
     Patient patient = new Patient(1, firstName, 
-        lastName, DOB);
+        lastName, dob);
     patient.register(true);
     this.assignPatientToRoom(patient, 1);
     
@@ -121,11 +136,15 @@ public class Clinic {
     
   }
   
+  /* 
+   * Registers a new clinical staff member to the clinic using
+   * their given information. 
+   * */
   public void registerNewClinicalStaff(String job, String firstName, 
-      String lastName, String education, String NPI) {
+      String lastName, String education, String npi) {
     
     ClinicalStaff clinicalStaff = new ClinicalStaff(job, firstName, 
-        lastName, education, NPI);
+        lastName, education, npi);
     clinicalStaff.activate(true);
     
     // Make a new larger array of staff and add the new one
@@ -141,6 +160,10 @@ public class Clinic {
     
   }
   
+  /* 
+   * Send a patient home and deregister them with
+   * approval from a clinical staff member. 
+   * */
   public void sendPatientHome(Patient patient) {
     
     // If there is no active clinical staff member for approval,
@@ -164,6 +187,9 @@ public class Clinic {
     staff.activate(false);
   }
   
+  /* 
+   * Assign a specified patient to a specified room in the clinic. 
+   * */
   public void assignPatientToRoom(Patient patient, int room) {
     
     // Assign a patient to this room if there are no other
@@ -177,6 +203,10 @@ public class Clinic {
     
   }
   
+  /* 
+   * Assign a specified clinical staff member to a specified
+   * patient in the clinic. 
+   * */
   public void assignStaffToPatient(ClinicalStaff staff, Patient patient) {
     
     if (staff.isActive() && patient.isRegistered()) {
@@ -186,6 +216,9 @@ public class Clinic {
     
   }
   
+  /* 
+   * Display the specified room's information. 
+   * */
   public void displayRoom(int room) {
     
     String displayString;
@@ -196,6 +229,11 @@ public class Clinic {
     
   }
   
+  /* 
+   * Display the seating chart of the clinic which includes
+   * the rooms, their patients, and those patients' assigned
+   * clinicians. 
+   * */
   public void seatingChart() {
     
     String displayString = "";

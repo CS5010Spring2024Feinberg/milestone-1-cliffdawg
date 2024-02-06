@@ -1,27 +1,44 @@
 package clinic;
 
+/**
+ * This class represents a patient. The patient has a
+ * room number, a first name, a last name, a date of birth,
+ * an array of assigned staff, and a registration status.
+ */
 public class Patient implements Person {
 
   private int roomNumber;
   private String firstName;
   private String lastName;
-  private String DOB;
+  private String dob;
   private Person[] assignedStaff;
   private boolean registered;
   
+  /**
+   * Constructs a patient object and initializes
+   * it to the given information.
+   *
+   * @param room number The patient's room number
+   * @param firstName   The patient's first Name
+   * @param lastName    The patient's last name
+   * @param dob         The patient's date of birth
+   * @param registered  The patient's registration status
+   */
   public Patient(int roomNumber, String firstName, 
-      String lastName, String DOB) {
+      String lastName, String dob) {
     
     this.roomNumber = roomNumber;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.DOB = DOB;
+    this.dob = dob;
     this.registered = true;
     
   }
   
-  // Make a separate register function for patients because
-  // patients can be sent home while remaining in system
+  /*
+   * Make a separate register function for patients because
+   * patients can be sent home while remaining in system
+   * */
   public void register(boolean status) {
     this.registered = status;
   }
@@ -34,6 +51,9 @@ public class Patient implements Person {
     this.roomNumber = room;
   }
   
+  /*
+   * Record a clinical staff member as assigned to this patient.
+   * */
   public void assignStaff(ClinicalStaff staff) {
     
     // Make a new larger array of staff and add the new one
@@ -49,12 +69,15 @@ public class Patient implements Person {
     
   }
   
+  /*
+   * Display the patient information.
+   * */
   public String display() {
     
     // First format the patient's information, then do the same for their clinicians
     String patientDisplay = String.format("Patient name: %s %s, date of birth: %s, "
         + "room number: %d, registration status: %b\n", 
-        this.firstName, this.lastName, this.DOB, this.roomNumber, this.registered);
+        this.firstName, this.lastName, this.dob, this.roomNumber, this.registered);
     
     if (this.assignedStaff != null) {
       for (int i = 0; i < this.assignedStaff.length; i++) {

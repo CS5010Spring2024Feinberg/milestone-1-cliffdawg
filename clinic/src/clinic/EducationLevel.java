@@ -1,3 +1,5 @@
 package clinic;
 
-public enum EducationLevel {DOCTORAL, MASTERS, ALLIED}
+public enum EducationLevel {
+  DOCTORAL, MASTERS, ALLIED
+}

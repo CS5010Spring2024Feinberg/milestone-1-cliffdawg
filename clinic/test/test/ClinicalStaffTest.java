@@ -6,10 +6,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
-import org.junit.Test;
 import clinic.ClinicalStaff;
 import clinic.Patient;
+import org.junit.Test;
 
+/**
+ * A JUnit test class for the ClinicalStaff class.
+ */
 public class ClinicalStaffTest {
 
   private ClinicalStaff staff;

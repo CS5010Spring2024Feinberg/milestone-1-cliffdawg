@@ -1,7 +1,15 @@
 package clinic;
 
+/**
+ * This class is the driver class for testing the clinic object.
+ * The output will show whether the clinic object and its methods
+ * are operating correctly.
+ */
 public class ClinicDriver {
 
+  /* 
+   * Takes one argument, which is the path to the input file
+   *  */
   public static void main(String[] args) {
     
     String fileName = args[0];

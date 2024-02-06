@@ -1,5 +1,10 @@
 package clinic;
 
+/**
+ * This class represents a clinic room. The clinic room 
+ * has lower left corner coordinates, upper right corner
+ * coordinates, a room number, a room type, and a name.
+ */
 public class Room {
 
   private int lowerLeftX;
@@ -11,6 +16,18 @@ public class Room {
   private String name;
   private Patient[] patients;
   
+  /**
+   * Constructs a room object and initializes
+   * it to the given information.
+   *
+   * @param lowerLeftX     The X coordinate of the room's lower left corner
+   * @param lowerLeftY     The Y coordinate of the room's lower left corner
+   * @param upperRightX    The X coordinate of the room's upper right corner
+   * @param upperRightY    The Y coordinate of the room's upper right corner
+   * @param number         The room number
+   * @param type           The room type
+   * @param name           The room name
+   */
   public Room(int lowerLeftX, int lowerLeftY, int upperRightX, 
       int upperRightY, int number, String type, String name) {
     
@@ -20,11 +37,11 @@ public class Room {
     this.upperRightY = upperRightY;
     this.number = number;
     
-    if (type.equals("exam")) {
+    if ("exam".equals(type)) {
       this.type = RoomType.EXAM;
-    } else if (type.equals("procedure")) {
+    } else if ("procedure".equals(type)) {
       this.type = RoomType.PROCEDURE;
-    } else if (type.equals("waiting")) {
+    } else if ("waiting".equals(type)) {
       this.type = RoomType.WAITING;
     }
     
@@ -32,6 +49,9 @@ public class Room {
     
   }
   
+  /**
+   * Assigns a patient to this room.
+   * */
   public void assignPatient(Patient patient) {
     
     // Make a new larger array of Patients and add the new one.
@@ -48,6 +68,9 @@ public class Room {
     
   }
   
+  /**
+   * Check if this room is occupied.
+   * */
   public boolean checkOccupied() {
     
     if (this.patients != null) {
@@ -64,6 +87,9 @@ public class Room {
     return this.type;
   }
   
+  /**
+   * Display the room information.
+   * */
   public String display() {
     
     // First format the room's information, then do the same for its patients

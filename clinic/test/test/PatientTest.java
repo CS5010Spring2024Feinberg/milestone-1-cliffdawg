@@ -6,12 +6,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
-import org.junit.Test;
-
 import clinic.ClinicalStaff;
 import clinic.Patient;
+import org.junit.Test;
 
-
+/**
+ * A JUnit test class for the Patient class.
+ */
 public class PatientTest {
   
   private Patient patient;
@@ -34,7 +35,8 @@ public class PatientTest {
     
     this.patient.assignRoom(4);
     assertEquals(this.patient.display(), 
-        "Patient name: Kelly George, date of birth: 4/3/1971, room number: 4, registration status: true\n");
+        "Patient name: Kelly George, date of birth: 4/3/1971, "
+        + "room number: 4, registration status: true\n");
     
   }
   

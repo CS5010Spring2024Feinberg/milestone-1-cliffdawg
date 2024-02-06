@@ -7,9 +7,11 @@ package clinic;
  */
 public class ClinicDriver {
 
-  /* 
-   * Takes one argument, which is the path to the input file
-   *  */
+  /** 
+   * Takes one argument, which is the path to the input file.
+   * 
+   * @param args    The first argument will be the name and file path of the input file
+   */
   public static void main(String[] args) {
     
     String fileName = args[0];

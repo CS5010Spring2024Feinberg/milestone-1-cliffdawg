@@ -51,7 +51,9 @@ public class Room {
   
   /**
    * Assigns a patient to this room.
-   * */
+   * 
+   * @param patient    The patient to be assigned
+   */
   public void assignPatient(Patient patient) {
     
     // Make a new larger array of Patients and add the new one.
@@ -70,7 +72,9 @@ public class Room {
   
   /**
    * Check if this room is occupied.
-   * */
+   * 
+   * @return boolean    Status of whether the room is occupied or not   
+   */
   public boolean checkOccupied() {
     
     if (this.patients != null) {
@@ -89,7 +93,9 @@ public class Room {
   
   /**
    * Display the room information.
-   * */
+   * 
+   * @return String     String of the room information
+   */
   public String display() {
     
     // First format the room's information, then do the same for its patients

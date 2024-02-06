@@ -18,11 +18,10 @@ public class Patient implements Person {
    * Constructs a patient object and initializes
    * it to the given information.
    *
-   * @param room number The patient's room number
-   * @param firstName   The patient's first Name
+   * @param roomNumber The patient's room number
+   * @param firstName   The patient's first name
    * @param lastName    The patient's last name
    * @param dob         The patient's date of birth
-   * @param registered  The patient's registration status
    */
   public Patient(int roomNumber, String firstName, 
       String lastName, String dob) {
@@ -35,10 +34,12 @@ public class Patient implements Person {
     
   }
   
-  /*
+  /**
    * Make a separate register function for patients because
-   * patients can be sent home while remaining in system
-   * */
+   * patients can be sent home while remaining in system.
+   * 
+   * @param status    The registration status to set for the patient
+   */
   public void register(boolean status) {
     this.registered = status;
   }
@@ -51,9 +52,11 @@ public class Patient implements Person {
     this.roomNumber = room;
   }
   
-  /*
+  /**
    * Record a clinical staff member as assigned to this patient.
-   * */
+   * 
+   * @param staff     The clinical staff member to assign to this patient
+   */
   public void assignStaff(ClinicalStaff staff) {
     
     // Make a new larger array of staff and add the new one
@@ -69,9 +72,11 @@ public class Patient implements Person {
     
   }
   
-  /*
+  /**
    * Display the patient information.
-   * */
+   * 
+   * @return String   The string consisting of patient's information
+   */
   public String display() {
     
     // First format the patient's information, then do the same for their clinicians

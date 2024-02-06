@@ -5,10 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.Before;
+import clinic.Patient;
 import clinic.Room;
 import clinic.RoomType;
-import clinic.Patient;
+import org.junit.Before;
 import org.junit.Test;
 
 /**

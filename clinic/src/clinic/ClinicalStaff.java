@@ -16,10 +16,10 @@ public class ClinicalStaff extends AbstractStaff {
    * it to the given information.
    *
    * @param job         The staff member's job
-   * @param firstName   The staff member's first Name
+   * @param firstName   The staff member's first name
    * @param lastName    The staff member's last name
    * @param education   The staff member's education level
-   * @param CPR         The staff member's NPI number
+   * @param npi         The staff member's NPI number
    */
   public ClinicalStaff(String job, String firstName, String lastName,
       String education, String npi) {
@@ -36,7 +36,7 @@ public class ClinicalStaff extends AbstractStaff {
    * clinical staff can be deactivated while remaining in system.
    * Move a common registration function to the Person interface
    * in the future if NonclinicalStaff also ends up needing one 
-   * */
+   */
   public void activate(boolean status) {
     this.activated = status;
   }
@@ -49,9 +49,11 @@ public class ClinicalStaff extends AbstractStaff {
     patient.register(false);
   }
   
-  /* 
+  /** 
    * Assigns a patient to this clinical staff member. 
-   * */
+   * 
+   * @param patient   The patient to assign to this clinical staff member
+   */
   public void assignPatient(Patient patient) {
     
     // Make a new larger array of Patients and add the new one
@@ -67,9 +69,11 @@ public class ClinicalStaff extends AbstractStaff {
     
   }
   
-  /* 
+  /** 
    * Display the clinical staff member information. 
-   * */
+   * 
+   * @return String      The string consisting of the clinical staff member's information
+   */
   public String display() {
     
     // Format the clinician's information

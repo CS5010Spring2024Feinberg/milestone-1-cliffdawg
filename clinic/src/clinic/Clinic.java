@@ -1,8 +1,8 @@
 package clinic;
 
-import java.io.IOException;
-import java.io.FileReader;
 import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -18,14 +18,19 @@ public class Clinic {
   Person[] staff;
   
   public Clinic() {
-      
+    // Would read file through constructor, but assignment
+    // description states it needs the ability to read text file
+    // into model, like it should be possible for the model to
+    // do at any time. Placed it in a separate readFile method instead.
   }
   
-  /* 
+  /** 
    * Reads the input file specified by its file name and path.
    * Generates objects based on the information presented for
    * the clinic. 
-   * */
+   * 
+   * @param fileName     The name and path of the input file
+   */
   public void readFile(String fileName) {
       
     BufferedReader reader;
@@ -104,16 +109,21 @@ public class Clinic {
         
     } catch (IOException e) {
       
+      // Alert user to missing file issue
       System.out.println("File not found!");
         
     }
       
   }
   
-  /* 
+  /** 
    * Registers a new patient to the clinic using
    * their given information. 
-   * */
+   * 
+   * @param firstName   The patient's first name
+   * @param lastName    The patient's last name
+   * @param dob         The patient's date of birth
+   */
   public void registerNewPatient(String firstName, 
       String lastName, String dob) {
     
@@ -136,10 +146,16 @@ public class Clinic {
     
   }
   
-  /* 
+  /** 
    * Registers a new clinical staff member to the clinic using
    * their given information. 
-   * */
+   * 
+   * @param job         The staff member's job
+   * @param firstName   The staff member's first name
+   * @param lastName    The staff member's last name
+   * @param education   The staff member's education level
+   * @param npi         The staff member's NPI number
+   */
   public void registerNewClinicalStaff(String job, String firstName, 
       String lastName, String education, String npi) {
     
@@ -160,10 +176,12 @@ public class Clinic {
     
   }
   
-  /* 
+  /** 
    * Send a patient home and deregister them with
    * approval from a clinical staff member. 
-   * */
+   * 
+   * @param patient      The patient to send home
+   */
   public void sendPatientHome(Patient patient) {
     
     // If there is no active clinical staff member for approval,
@@ -187,9 +205,12 @@ public class Clinic {
     staff.activate(false);
   }
   
-  /* 
+  /** 
    * Assign a specified patient to a specified room in the clinic. 
-   * */
+   * 
+   * @param patient     The patient to assign to a room
+   * @param room        The room to assign the patient to
+   */
   public void assignPatientToRoom(Patient patient, int room) {
     
     // Assign a patient to this room if there are no other
@@ -203,10 +224,13 @@ public class Clinic {
     
   }
   
-  /* 
+  /** 
    * Assign a specified clinical staff member to a specified
    * patient in the clinic. 
-   * */
+   * 
+   * @param staff      The clinical staff member to assign to the patient
+   * @param patient    The patient who will have the clinician assigned to them
+   */
   public void assignStaffToPatient(ClinicalStaff staff, Patient patient) {
     
     if (staff.isActive() && patient.isRegistered()) {
@@ -216,9 +240,11 @@ public class Clinic {
     
   }
   
-  /* 
+  /** 
    * Display the specified room's information. 
-   * */
+   * 
+   * @param room   The room number of the specific room to display
+   */
   public void displayRoom(int room) {
     
     String displayString;
@@ -229,11 +255,11 @@ public class Clinic {
     
   }
   
-  /* 
+  /** 
    * Display the seating chart of the clinic which includes
    * the rooms, their patients, and those patients' assigned
    * clinicians. 
-   * */
+   */
   public void seatingChart() {
     
     String displayString = "";

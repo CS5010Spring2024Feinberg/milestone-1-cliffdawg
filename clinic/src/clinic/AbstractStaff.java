@@ -14,6 +14,11 @@ public abstract class AbstractStaff implements Person {
   
   /**
   * Sets the information for the staff member.
+  * 
+  * @param job         The staff member's job
+  * @param firstName   The staff member's first Name
+  * @param lastName    The staff member's last name
+  * @param education   The staff member's education level
   */
   public void setStaffInfo(String job, String firstName, 
       String lastName, String education) {

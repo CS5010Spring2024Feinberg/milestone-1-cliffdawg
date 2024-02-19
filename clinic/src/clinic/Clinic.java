@@ -10,12 +10,12 @@ import java.util.Arrays;
  * waiting room, an array of rooms, an array of patients, and
  * an array of staff members.
  */
-public class Clinic {
+public class Clinic implements Organization {
   
-  Room primaryRoom;
-  Room[] rooms;
-  Patient[] patients;
-  Person[] staff;
+  private Room primaryRoom;
+  private Room[] rooms;
+  private Patient[] patients;
+  private Person[] staff;
   
   public Clinic() {
     // Would read file through constructor, but assignment

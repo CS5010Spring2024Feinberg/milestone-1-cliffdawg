@@ -1,5 +1,9 @@
 package clinic;
 
+import clinic.Clinic;
+import clinic.Patient;
+import clinic.ClinicalStaff;
+
 /**
  * This class is the driver class for testing the clinic object.
  * The output will show whether the clinic object and its methods

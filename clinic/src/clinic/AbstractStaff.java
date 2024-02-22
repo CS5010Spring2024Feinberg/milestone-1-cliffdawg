@@ -11,6 +11,7 @@ public abstract class AbstractStaff implements Person {
   protected String firstName;
   protected String lastName;
   protected EducationLevel education;
+  protected String prefix;
   
   /**
   * Sets the information for the staff member.
@@ -26,6 +27,7 @@ public abstract class AbstractStaff implements Person {
     this.job = job;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.prefix = "";
     
     if ("doctoral".equals(education)) {
       this.education = EducationLevel.DOCTORAL;
@@ -35,6 +37,24 @@ public abstract class AbstractStaff implements Person {
       this.education = EducationLevel.ALLIED;
     }
     
+  }
+  
+  /**
+   * Check the given full name with this staff member's.
+   * 
+   * @param first      The given first name
+   * @param last       The given last name
+   * 
+   * @return boolean   Whether or not the given name matches
+   */
+  public boolean checkName(String first, String last) {
+    
+    return (this.firstName.equals(first) && this.lastName.equals(last));
+    
+  }
+  
+  public String getPrefix() {
+    return this.prefix;
   }
 
 }

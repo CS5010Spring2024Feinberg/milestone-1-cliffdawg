@@ -1,5 +1,7 @@
 package clinic;
 
+import java.util.Date;
+
 /**
  * This class represents a patient. The patient has a
  * room number, a first name, a last name, a date of birth,
@@ -12,6 +14,7 @@ public class Patient implements Person {
   private String lastName;
   private String dob;
   private Person[] assignedStaff;
+  private VisitRecord[] visits;
   private boolean registered;
   
   /**
@@ -98,6 +101,44 @@ public class Patient implements Person {
     }
     
     return patientDisplay;
+    
+  }
+  
+  /**
+   * Check the given full name with this patient's.
+   * 
+   * @param first      The given first name
+   * @param last       The given last name
+   * 
+   * @return boolean   Whether or not the given name matches
+   */
+  public boolean checkName(String first, String last) {
+    
+    return (this.firstName.equals(first) && this.lastName.equals(last));
+    
+  }
+  
+  /**
+   * Add a new visit record for this patient.
+   * 
+   * @param date            The given date
+   * @param complaint       The given complaint
+   * @param temperature     The given temperature
+   */
+  public void registerVisitRecord(Date date, String complaint, double temperature) {
+    
+    VisitRecord visit = new VisitRecord(date, complaint, temperature);
+    
+    // Make a new larger array of visits and add the new one
+    int newLength = this.visits != null ? this.visits.length + 1 : 1;
+    VisitRecord[] tempVisits = new VisitRecord[newLength];
+    
+    for (int i = 0; i < newLength - 1; i++) {
+      tempVisits[i] = this.visits[i];
+    }
+    
+    tempVisits[newLength - 1] = visit;
+    this.visits = tempVisits;
     
   }
   

@@ -7,6 +7,6 @@ package clinic;
  */
 public interface Person {
 
-  // Add future functionalities common to all people here
+  public boolean checkName(String first, String last);
   
 }

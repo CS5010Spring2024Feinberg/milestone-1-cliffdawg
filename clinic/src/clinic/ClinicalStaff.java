@@ -29,6 +29,14 @@ public class ClinicalStaff extends AbstractStaff {
     this.npi = npi;
     this.activated = true;
     
+    if (job == "physician") {
+      this.prefix = "Dr."; 
+    }
+    
+    if (job == "nurse") {
+      this.prefix = "Nurse";
+    }
+    
   }
   
   /* 

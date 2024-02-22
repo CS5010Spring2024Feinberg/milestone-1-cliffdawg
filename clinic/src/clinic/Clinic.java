@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * This class represents a clinic. The clinic has a primary
@@ -15,7 +16,7 @@ public class Clinic implements Organization {
   private Room primaryRoom;
   private Room[] rooms;
   private Patient[] patients;
-  private Person[] staff;
+  private AbstractStaff[] staff;
   
   public Clinic() {
     // Would read file through constructor, but assignment
@@ -71,13 +72,13 @@ public class Clinic implements Organization {
       line = reader.readLine();
         
       int staffCount = Integer.parseInt(line);
-      Person[] tempStaff = new Person[staffCount];
+      AbstractStaff[] tempStaff = new AbstractStaff[staffCount];
         
       // Create each staff member and add them to the clinic
       for (int i = 0; i < staffCount; i++) {
         line = reader.readLine();
         String[] data = line.split("\\s+");
-        Person newStaff;
+        AbstractStaff newStaff;
         if (data[4].matches("[a-zA-Z]+")) {
           newStaff = new NonclinicalStaff(data[0], data[1], data[2], data[3], data[4]);
         } else {
@@ -123,9 +124,10 @@ public class Clinic implements Organization {
    * @param firstName   The patient's first name
    * @param lastName    The patient's last name
    * @param dob         The patient's date of birth
+   * @param Object      The information of a visit record
    */
   public void registerNewPatient(String firstName, 
-      String lastName, String dob) {
+      String lastName, String dob, Object... record) {
     
     Patient patient = new Patient(1, firstName, 
         lastName, dob);
@@ -143,6 +145,38 @@ public class Clinic implements Organization {
     tempPatients[newLength - 1] = patient;
     this.patients = tempPatients;
     
+    if (record[0] != null && record[1] != null && record[2] != null) {
+      patient.registerVisitRecord((Date) record[0], 
+          (String) record[1], (double) record[2]);
+    }
+    
+  }
+  
+  /** 
+   * Registers an existing patient in the clinic using
+   * their given information. 
+   * 
+   * @param first   The patient's first name
+   * @param last    The patient's last name
+   * @param Object      The information of a visit record
+   */
+  public void registerExistingPatient(String first, 
+      String last, Object... record) {
+    
+    for (int i = 0; i < this.patients.length; i++) {
+      
+      if (this.patients[i].checkName(first, last)) {
+        
+        this.patients[i].register(true);
+        
+        if (record[0] != null && record[1] != null && record[2] != null) {
+          this.patients[i].registerVisitRecord((Date) record[0], 
+              (String) record[1], (double) record[2]);
+        }
+        
+      }
+    
+    }
     
   }
   
@@ -165,7 +199,7 @@ public class Clinic implements Organization {
     
     // Make a new larger array of staff and add the new one
     int newLength = this.staff != null ? this.staff.length + 1 : 1;
-    Person[] tempStaff = new Person[newLength];
+    AbstractStaff[] tempStaff = new AbstractStaff[newLength];
     
     for (int i = 0; i < newLength - 1; i++) {
       tempStaff[i] = this.staff[i];
@@ -201,6 +235,26 @@ public class Clinic implements Organization {
     
   }
   
+  /** 
+   * Send a patient home and deregister them with
+   * approval from a clinical staff member using
+   * a user's given name for a patient. 
+   * 
+   * @param first      The patient's first name
+   * @param last       The patient's last name
+   */
+  public void sendPatientHome(String first, String last) {
+    
+    for (int i = 0; i < this.patients.length; i++) {
+      
+      if (this.patients[i].checkName(first, last)) {
+        this.sendPatientHome(this.patients[i]);
+      }
+    
+    }
+    
+  }
+  
   public void deactivateClinicalStaff(ClinicalStaff staff) {
     staff.activate(false);
   }
@@ -225,6 +279,26 @@ public class Clinic implements Organization {
   }
   
   /** 
+   * Assign a specified patient to a specified room in the clinic
+   * using a user's given name for the patient. 
+   * 
+   * @param first     The first name of the patient
+   * @param last      The last name of the patient
+   * @param room      The room to assign the patient to
+   */
+  public void assignPatientToRoom(String first, String last, int room) {
+    
+    for (int i = 0; i < this.patients.length; i++) {
+      
+      if (this.patients[i].checkName(first, last)) {
+        this.assignPatientToRoom(this.patients[i], room);
+      }
+    
+    }
+    
+  }
+  
+  /** 
    * Assign a specified clinical staff member to a specified
    * patient in the clinic. 
    * 
@@ -233,10 +307,46 @@ public class Clinic implements Organization {
    */
   public void assignStaffToPatient(ClinicalStaff staff, Patient patient) {
     
-    if (staff.isActive() && patient.isRegistered()) {
+    if (staff != null && patient != null && staff.isActive() && patient.isRegistered()) {
       staff.assignPatient(patient);
       patient.assignStaff(staff);
     }
+    
+  }
+  
+  /** 
+   * Assign a specified clinical staff member to a specified
+   * patient in the clinic using a user's given name for the patient
+   * and for the clinician. 
+   * 
+   * @param patientFirst      The first name of the patient
+   * @param patientLast       The last name of the patient
+   * @param staffFirst        The first name of the clinical staff member
+   * @param staffLast         The last name of the clinical staff member
+   */
+  public void assignStaffToPatient(String patientFirst, String patientLast, 
+      String staffFirst, String staffLast) {
+    
+    Patient assignPatient = null;
+    AbstractStaff assignStaff = null;
+    
+    for (int i = 0; i < this.patients.length; i++) {
+      
+      if (this.patients[i].checkName(patientFirst, patientLast)) {
+        assignPatient = this.patients[i];
+      }
+    
+    }
+    
+    for (int i = 0; i < this.staff.length; i++) {
+      
+      if (this.staff[i].checkName(staffFirst, staffLast) && (this.staff[i].getPrefix() == "Dr." || this.staff[i].getPrefix() == "Nurse")) {
+        assignStaff = this.staff[i];
+      }
+    
+    }
+    
+    this.assignStaffToPatient((ClinicalStaff) assignStaff, assignPatient);
     
   }
   
@@ -252,6 +362,28 @@ public class Clinic implements Organization {
     displayString = selectedRoom.display();
     displayString += "\n";
     System.out.print(displayString);
+    
+  }
+  
+  /** 
+   * Display the specified patient's information. 
+   * 
+   * @param first   The first name of the patient to display
+   * @param last    The last name of the patient to display
+   */
+  public void displayPatient(String first, String last) {
+    
+    String displayString = "No patient record matching name\n";
+    
+    for (int i = 0; i < this.patients.length; i++) {
+      
+      if (this.patients[i].checkName(first, last)) {
+        displayString = this.patients[i].display();
+        displayString += "\n";
+        System.out.print(displayString);
+      }
+    
+    }
     
   }
   

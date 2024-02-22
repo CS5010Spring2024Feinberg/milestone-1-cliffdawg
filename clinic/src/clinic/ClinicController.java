@@ -28,7 +28,7 @@ public class ClinicController {
   }
   
   
-  public void takeCommand(Clinic clinic) {
+  public void runCommands(Clinic clinic) {
     
     if (clinic == null) {
       throw new IllegalArgumentException("Clinic cannot be null");
@@ -40,9 +40,9 @@ public class ClinicController {
       
       // Prompt user for what they want to do
       try {
-        out.append("Available commands: \n Display_Patient, Display_Room, Display_All_Rooms, "
+        out.append("Available commands: \nDisplay_Patient, Display_Room, Display_All_Rooms, "
             + "Register_New_Patient, Register_Clinician, Register_Existing_Patient, "
-            + "Send_Patient_Home, Assign_Patient_to_Room, Assign_Clinician_to_Patient. \n Enter command: \n ");
+            + "Send_Patient_Home, Assign_Patient_to_Room, Assign_Clinician_to_Patient, Quit. \nEnter command: \n");
       } catch (IOException ioe) {
         throw new IllegalStateException("Append failed", ioe);
       }
@@ -127,7 +127,7 @@ public class ClinicController {
           
           // Prompt user for clinician's information
           try {
-            out.append("Enter clinician job, first name, \n"
+            out.append("Enter clinician job, first name, "
                 + "last name, education, and npi:\n");
           } catch (IOException ioe) {
             throw new IllegalStateException("Append failed", ioe);
@@ -189,7 +189,7 @@ public class ClinicController {
           
           break;
           
-        case "Assign_Patient_to_Room":
+        case "Assign_Patient_To_Room":
           
           // Prompt user for patient's full name
           try {
@@ -215,7 +215,7 @@ public class ClinicController {
           
           break;
           
-        case "Assign_Clinician_to_Patient":
+        case "Assign_Clinician_To_Patient":
           
           // Prompt user for patient's information
           try {
@@ -238,6 +238,12 @@ public class ClinicController {
           String clinicianAssignLastName = scan.next();
           
           clinic.assignStaffToPatient(clinicAssignFirstName, clinicAssignLastName, clinicianAssignFirstName, clinicianAssignLastName);
+          
+          break;
+          
+        case "Quit":
+          
+          play = false;
           
           break;
           

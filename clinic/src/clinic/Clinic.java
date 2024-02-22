@@ -145,7 +145,7 @@ public class Clinic implements Organization {
     tempPatients[newLength - 1] = patient;
     this.patients = tempPatients;
     
-    if (record[0] != null && record[1] != null && record[2] != null) {
+    if (record != null) {
       patient.registerVisitRecord((Date) record[0], 
           (String) record[1], (double) record[2]);
     }
@@ -169,7 +169,7 @@ public class Clinic implements Organization {
         
         this.patients[i].register(true);
         
-        if (record[0] != null && record[1] != null && record[2] != null) {
+        if (record != null) {
           this.patients[i].registerVisitRecord((Date) record[0], 
               (String) record[1], (double) record[2]);
         }

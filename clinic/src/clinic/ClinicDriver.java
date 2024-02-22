@@ -1,5 +1,7 @@
 package clinic;
 
+import java.io.InputStreamReader;
+
 import clinic.Clinic;
 import clinic.Patient;
 import clinic.ClinicalStaff;
@@ -33,11 +35,12 @@ public class ClinicDriver {
     
     // Test registerNewPatient and see if they
     // appear in the waiting room
-    clinic.registerNewPatient("Joe", "Schmoe", "5/6/1995");
+    clinic.registerNewPatient("Joe", "Schmoe", "5/6/1995", null);
     clinic.displayRoom(1);
     
     // Test assignPatientToRoom and assign them to room 3
     Patient patient = new Patient(3, "Tom", "Smith", "1/9/1987");
+    clinic.registerNewPatient("Tom", "Smith", "1/9/1987", null);
     clinic.assignPatientToRoom(patient, 3);
     clinic.displayRoom(3);
     
@@ -62,6 +65,16 @@ public class ClinicDriver {
         "Brown", "doctoral", "8172638492");
     clinic.sendPatientHome(patient);
     clinic.displayRoom(3);
+    
+    
+    
+    Readable input = new InputStreamReader(System.in);
+    Appendable output = System.out;
+    ClinicController controller = new ClinicController(input, output);
+    controller.runCommands(clinic);
+
+    
+    
     
   }
 

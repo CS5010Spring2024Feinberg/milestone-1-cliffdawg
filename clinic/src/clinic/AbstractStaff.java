@@ -24,6 +24,10 @@ public abstract class AbstractStaff implements Person {
   public void setStaffInfo(String job, String firstName, 
       String lastName, String education) {
     
+    if (job.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || education.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank staff information.");
+    }
+    
     this.job = job;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -49,12 +53,38 @@ public abstract class AbstractStaff implements Person {
    */
   public boolean checkName(String first, String last) {
     
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank checking name information.");
+    }
+    
     return (this.firstName.equals(first) && this.lastName.equals(last));
     
   }
   
   public String getPrefix() {
     return this.prefix;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof AbstractStaff)) {
+      return false;
+    }
+    return this.job.equals(((AbstractStaff) o).job)
+        && this.firstName.equals(((AbstractStaff) o).firstName)
+        && this.lastName.equals(((AbstractStaff) o).lastName)
+        && this.education.equals(((AbstractStaff) o).education)
+        && this.prefix.equals(((AbstractStaff) o).prefix);
+  }
+  
+  @Override
+  public int hashCode() {
+    // Objects that are equal need to return the same hash code
+    return Long.hashCode((long) 
+        (this.job + this.firstName + this.lastName + this.prefix).hashCode());
   }
 
 }

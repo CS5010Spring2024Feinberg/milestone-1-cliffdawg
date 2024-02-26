@@ -5,7 +5,7 @@ package clinic;
  * has lower left corner coordinates, upper right corner
  * coordinates, a room number, a room type, and a name.
  */
-public class Room {
+public class Room implements BuildingSpace {
 
   private int lowerLeftX;
   private int lowerLeftY;
@@ -31,6 +31,18 @@ public class Room {
   public Room(int lowerLeftX, int lowerLeftY, int upperRightX, 
       int upperRightY, int number, String type, String name) {
     
+    if (lowerLeftX < 0 || lowerLeftY < 0 || upperRightX < 0 || upperRightY < 0) {
+      throw new IllegalArgumentException("Do not provide invalid room coordinates.");
+    }
+    
+    if (number < 0) {
+      throw new IllegalArgumentException("Do not provide invalid room number.");
+    }
+    
+    if (type.isEmpty() || name.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank room information.");
+    }
+    
     this.lowerLeftX = lowerLeftX;
     this.lowerLeftY = lowerLeftY;
     this.upperRightX = upperRightX;
@@ -55,6 +67,11 @@ public class Room {
    * @param patient    The patient to be assigned
    */
   public void assignPatient(Patient patient) {
+    
+    if (patient == null) {
+      throw new IllegalArgumentException("Do not attempt "
+          + "to assign a null patient to room.");
+    }
     
     // Make a new larger array of Patients and add the new one.
     // Consider a static method for adding patients in next milestone
@@ -93,6 +110,7 @@ public class Room {
   
   /**
    * Display the room information.
+   * This serves as a room's toString() method.
    * 
    * @return String     String of the room information
    */
@@ -114,6 +132,30 @@ public class Room {
     
     return roomDisplay;
     
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Room)) {
+      return false;
+    }
+    return this.lowerLeftX == ((Room) o).lowerLeftX
+        && this.lowerLeftY == ((Room) o).lowerLeftY
+        && this.upperRightX == ((Room) o).upperRightX
+        && this.upperRightY == ((Room) o).upperRightY
+        && this.number == ((Room) o).number
+        && this.type.equals(((Room) o).type)
+        && this.name.equals(((Room) o).name);
+  }
+  
+  @Override
+  public int hashCode() {
+    // Objects that are equal need to return the same hash code
+    return Long.hashCode((long) 
+        (this.name).hashCode());
   }
   
 }

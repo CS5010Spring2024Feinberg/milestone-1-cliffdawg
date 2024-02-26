@@ -5,6 +5,10 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * This class represents a clinic controller. The 
+ * controller has an input and output Readable.
+ */
 public class ClinicController {
   
   private final Appendable out;
@@ -27,7 +31,11 @@ public class ClinicController {
     
   }
   
-  
+  /** 
+   * Run the user commands on the clinic. 
+   * 
+   * @param clinic  The clinic to run commands in
+   */
   public void runCommands(Clinic clinic) {
     
     if (clinic == null) {
@@ -40,9 +48,11 @@ public class ClinicController {
       
       // Prompt user for what they want to do
       try {
-        out.append("Available commands: \nDisplay_Patient, Display_Room, Display_All_Rooms, "
-            + "Register_New_Patient, Register_Clinician, Register_Existing_Patient, "
-            + "Send_Patient_Home, Assign_Patient_to_Room, Assign_Clinician_to_Patient, Quit. \nEnter command: \n");
+        out.append("Available commands: \nDisplay_Patient, Display_Room, "
+            + "Display_All_Rooms, Register_New_Patient, "
+            + "Register_Clinician, Register_Existing_Patient, "
+            + "Send_Patient_Home, Assign_Patient_To_Room, "
+            + "Assign_Clinician_To_Patient, Quit. \nEnter command: \n");
       } catch (IOException ioe) {
         throw new IllegalStateException("Append failed", ioe);
       }
@@ -119,7 +129,8 @@ public class ClinicController {
           Double roundedTemperature = (double) Math.round(temperature 
               * (int) Math.pow(10, 1)) / (int) Math.pow(10, 1);
           
-          clinic.registerNewPatient(newFirstName, newLastName, dob, date, complaint, roundedTemperature);
+          clinic.registerNewPatient(newFirstName, newLastName, 
+              dob, date, complaint, roundedTemperature);
           
           break;
           
@@ -169,7 +180,8 @@ public class ClinicController {
           Double exRoundedTemperature = (double) Math.round(exTemperature 
               * (int) Math.pow(10, 1)) / (int) Math.pow(10, 1);
           
-          clinic.registerExistingPatient(exFirstName, exLastName, exDate, exComplaint, exRoundedTemperature);
+          clinic.registerExistingPatient(exFirstName, exLastName, 
+              exDate, exComplaint, exRoundedTemperature);
           
           break;
           
@@ -237,7 +249,8 @@ public class ClinicController {
           String clinicianAssignFirstName = scan.next();
           String clinicianAssignLastName = scan.next();
           
-          clinic.assignStaffToPatient(clinicAssignFirstName, clinicAssignLastName, clinicianAssignFirstName, clinicianAssignLastName);
+          clinic.assignStaffToPatient(clinicAssignFirstName, clinicAssignLastName, 
+              clinicianAssignFirstName, clinicianAssignLastName);
           
           break;
           

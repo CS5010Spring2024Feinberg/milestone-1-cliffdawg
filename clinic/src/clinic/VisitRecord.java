@@ -23,10 +23,45 @@ public class VisitRecord {
    */
   public VisitRecord(Date date, String complaint, double temperature) {
     
+    if (date == null) {
+      throw new IllegalArgumentException("Do not provide null date "
+          + "in visit record.");
+    }
+    
+    if (complaint.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank complaint "
+          + "in visit record.");
+    }
+    
+    if (temperature < 0.0) {
+      throw new IllegalArgumentException("Do not provide invalid "
+          + "temperature in visit record.");
+    }
+    
     this.dateAndTime = date;
     this.complaint = complaint;
     this.bodyTemp = temperature;
     
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof VisitRecord)) {
+      return false;
+    }
+    return this.dateAndTime.equals(((VisitRecord) o).dateAndTime)
+        && this.complaint.equals(((VisitRecord) o).complaint)
+        && this.bodyTemp == ((VisitRecord) o).bodyTemp;
+  }
+  
+  @Override
+  public int hashCode() {
+    // Objects that are equal need to return the same hash code
+    return Long.hashCode((long) 
+        (this.complaint).hashCode());
   }
   
 }

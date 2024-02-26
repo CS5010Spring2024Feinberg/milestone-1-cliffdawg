@@ -24,16 +24,22 @@ public class ClinicalStaff extends AbstractStaff {
   public ClinicalStaff(String job, String firstName, String lastName,
       String education, String npi) {
     
+    if (job.isEmpty() || firstName.isEmpty() || lastName.isEmpty() 
+        || education.isEmpty() || npi.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank "
+          + "clinical staff information.");
+    }
+    
     this.setStaffInfo(job, firstName, lastName, education);
     
     this.npi = npi;
     this.activated = true;
     
-    if (job == "physician") {
+    if ("physician".equals(this.job)) {
       this.prefix = "Dr."; 
     }
     
-    if (job == "nurse") {
+    if ("nurse".equals(this.job)) {
       this.prefix = "Nurse";
     }
     
@@ -53,7 +59,18 @@ public class ClinicalStaff extends AbstractStaff {
     return this.activated;
   }
   
+  /** 
+   * Approve a patient to send home. 
+   * 
+   * @param patient   The patient to send home
+   */
   public void approvePatientHome(Patient patient) {
+    
+    if (patient == null) {
+      throw new IllegalArgumentException("Do not attempt to "
+          + "approve a null patient.");
+    }
+    
     patient.register(false);
   }
   
@@ -63,6 +80,11 @@ public class ClinicalStaff extends AbstractStaff {
    * @param patient   The patient to assign to this clinical staff member
    */
   public void assignPatient(Patient patient) {
+    
+    if (patient == null) {
+      throw new IllegalArgumentException("Do not provide null "
+          + "patient to assign to clinical staff.");
+    }
     
     // Make a new larger array of Patients and add the new one
     int newLength = this.assignedPatients != null ? this.assignedPatients.length + 1 : 1;
@@ -79,15 +101,17 @@ public class ClinicalStaff extends AbstractStaff {
   
   /** 
    * Display the clinical staff member information. 
+   * This serves as a clinical staff's toString() method.
    * 
    * @return String      The string consisting of the clinical staff member's information
    */
   public String display() {
     
     // Format the clinician's information
-    String clinicianDisplay = String.format("Clinician name: %s %s, job: %s, "
+    String clinicianDisplay = String.format("Clinician name: %s %s %s, job: %s, "
         + "education level: %s, NPI: %s\n", 
-        this.firstName, this.lastName, this.job, this.education.toString().toLowerCase(), this.npi);
+        this.getPrefix(), this.firstName, this.lastName, 
+        this.job, this.education.toString().toLowerCase(), this.npi);
   
     return clinicianDisplay;
     

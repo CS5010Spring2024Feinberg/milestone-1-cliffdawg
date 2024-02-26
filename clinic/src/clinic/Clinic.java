@@ -34,6 +34,11 @@ public class Clinic implements Organization {
    */
   public void readFile(String fileName) {
       
+    if (fileName.isEmpty()) {
+      throw new IllegalArgumentException("Provide an"
+          + " input file.");
+    }
+    
     BufferedReader reader;
       
     try {
@@ -50,21 +55,37 @@ public class Clinic implements Organization {
       line = reader.readLine();
         
       int roomCount = Integer.parseInt(line);
+      
+      // Handle invalid clinic description
+      if (roomCount < 0) {
+        throw new IllegalStateException("Invalid room count.");
+      }
+      
       Room[] tempRooms = new Room[roomCount];
         
       // Create each room and add it to the clinic
       for (int i = 0; i < roomCount; i++) {
+        
         line = reader.readLine();
         String[] data = line.split("\\s+");
         // Join the split strings of name back together
         String[] toJoin = Arrays.copyOfRange(data, 5, data.length);
         String name = String.join(" ", toJoin);
+        
+        // Handle invalid room description
+        if (Integer.parseInt(data[0]) < 0 || Integer.parseInt(data[2]) < 0
+            || Integer.parseInt(data[2]) < 0 || Integer.parseInt(data[3]) < 0) {
+          throw new IllegalStateException("Invalid room coordinates.");
+        }
+        
         Room newRoom = new Room(Integer.parseInt(data[0]), Integer.parseInt(data[1]), 
             Integer.parseInt(data[2]), Integer.parseInt(data[3]), i + 1, data[4], name);
         tempRooms[i] = newRoom;
+        
         if (i == 0) {
           this.primaryRoom = newRoom;
         }
+        
       }
       
       this.rooms = tempRooms;
@@ -76,15 +97,24 @@ public class Clinic implements Organization {
         
       // Create each staff member and add them to the clinic
       for (int i = 0; i < staffCount; i++) {
+        
         line = reader.readLine();
         String[] data = line.split("\\s+");
         AbstractStaff newStaff;
+        
+        // Handle invalid staff description
+        if (data.length < 5) {
+          throw new IllegalStateException("Missing staff information.");
+        }
+        
         if (data[4].matches("[a-zA-Z]+")) {
           newStaff = new NonclinicalStaff(data[0], data[1], data[2], data[3], data[4]);
         } else {
           newStaff = new ClinicalStaff(data[0], data[1], data[2], data[3], data[4]);
         }
+        
         tempStaff[i] = newStaff;
+        
       }
       
       this.staff = tempStaff;
@@ -96,11 +126,19 @@ public class Clinic implements Organization {
         
       // Create each patient and add them to the clinic
       for (int i = 0; i < patientCount; i++) {
+        
         line = reader.readLine();
         String[] data = line.split("\\s+");
+        
+        // Handle invalid patient description
+        if (data.length < 4) {
+          throw new IllegalStateException("Missing patient information.");
+        }
+        
         Patient newPatient = new Patient(Integer.parseInt(data[0]), data[1], 
             data[2], data[3]);
         tempPatients[i] = newPatient;
+        
       }
       
       this.patients = tempPatients;
@@ -124,10 +162,14 @@ public class Clinic implements Organization {
    * @param firstName   The patient's first name
    * @param lastName    The patient's last name
    * @param dob         The patient's date of birth
-   * @param Object      The information of a visit record
+   * @param record      The information of a visit record
    */
   public void registerNewPatient(String firstName, 
       String lastName, String dob, Object... record) {
+    
+    if (firstName.isEmpty() || lastName.isEmpty() || dob.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank new patient information.");
+    }
     
     Patient patient = new Patient(1, firstName, 
         lastName, dob);
@@ -158,10 +200,14 @@ public class Clinic implements Organization {
    * 
    * @param first   The patient's first name
    * @param last    The patient's last name
-   * @param Object      The information of a visit record
+   * @param record      The information of a visit record
    */
   public void registerExistingPatient(String first, 
       String last, Object... record) {
+    
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank existing patient information.");
+    }
     
     for (int i = 0; i < this.patients.length; i++) {
       
@@ -193,6 +239,11 @@ public class Clinic implements Organization {
   public void registerNewClinicalStaff(String job, String firstName, 
       String lastName, String education, String npi) {
     
+    if (job.isEmpty() || firstName.isEmpty() || lastName.isEmpty() 
+        || education.isEmpty() || npi.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank new clinical staff information.");
+    }
+    
     ClinicalStaff clinicalStaff = new ClinicalStaff(job, firstName, 
         lastName, education, npi);
     clinicalStaff.activate(true);
@@ -217,6 +268,10 @@ public class Clinic implements Organization {
    * @param patient      The patient to send home
    */
   public void sendPatientHome(Patient patient) {
+    
+    if (patient == null) {
+      throw new IllegalArgumentException("Do not attempt to send a null patient home.");
+    }
     
     // If there is no active clinical staff member for approval,
     // the patient cannot be approved to go home
@@ -245,6 +300,10 @@ public class Clinic implements Organization {
    */
   public void sendPatientHome(String first, String last) {
     
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not send home blank patient information.");
+    }
+    
     for (int i = 0; i < this.patients.length; i++) {
       
       if (this.patients[i].checkName(first, last)) {
@@ -255,7 +314,17 @@ public class Clinic implements Organization {
     
   }
   
+  /** 
+   * Deactivate a clinical staff. 
+   * 
+   * @param staff     The staff to deactivate
+   */
   public void deactivateClinicalStaff(ClinicalStaff staff) {
+    
+    if (staff == null) {
+      throw new IllegalArgumentException("Do not attempt to deactivate a null staff.");
+    }
+    
     staff.activate(false);
   }
   
@@ -266,6 +335,15 @@ public class Clinic implements Organization {
    * @param room        The room to assign the patient to
    */
   public void assignPatientToRoom(Patient patient, int room) {
+    
+    if (patient == null) {
+      throw new IllegalArgumentException("Do not attempt to assign a null patient to room.");
+    }
+    
+    if (room < 0) {
+      throw new IllegalArgumentException("Use valid room number "
+          + "for assigning patient.");
+    }
     
     // Assign a patient to this room if there are no other
     // patients or it is a waiting room
@@ -288,6 +366,16 @@ public class Clinic implements Organization {
    */
   public void assignPatientToRoom(String first, String last, int room) {
     
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not assign "
+          + "blank patient information to room.");
+    }
+    
+    if (room < 0) {
+      throw new IllegalArgumentException("Use valid room number "
+          + "for assigning patient.");
+    }
+    
     for (int i = 0; i < this.patients.length; i++) {
       
       if (this.patients[i].checkName(first, last)) {
@@ -306,6 +394,11 @@ public class Clinic implements Organization {
    * @param patient    The patient who will have the clinician assigned to them
    */
   public void assignStaffToPatient(ClinicalStaff staff, Patient patient) {
+    
+    if (staff == null || patient == null) {
+      throw new IllegalArgumentException("Do not assign "
+          + "null staff or null patient together.");
+    }
     
     if (staff != null && patient != null && staff.isActive() && patient.isRegistered()) {
       staff.assignPatient(patient);
@@ -327,6 +420,16 @@ public class Clinic implements Organization {
   public void assignStaffToPatient(String patientFirst, String patientLast, 
       String staffFirst, String staffLast) {
     
+    if (patientFirst.isEmpty() || patientLast.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide "
+          + "blank patient information to be assigned to.");
+    }
+    
+    if (staffFirst.isEmpty() || staffLast.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide "
+          + "blank staff information to assign to patient.");
+    }
+    
     Patient assignPatient = null;
     AbstractStaff assignStaff = null;
     
@@ -340,7 +443,7 @@ public class Clinic implements Organization {
     
     for (int i = 0; i < this.staff.length; i++) {
       
-      if (this.staff[i].checkName(staffFirst, staffLast) && (this.staff[i].getPrefix() == "Dr." || this.staff[i].getPrefix() == "Nurse")) {
+      if (this.staff[i].checkName(staffFirst, staffLast)) {
         assignStaff = this.staff[i];
       }
     
@@ -352,10 +455,15 @@ public class Clinic implements Organization {
   
   /** 
    * Display the specified room's information. 
+   * This serves as a room's toString() method.
    * 
    * @param room   The room number of the specific room to display
    */
   public void displayRoom(int room) {
+    
+    if (room < 0) {
+      throw new IllegalArgumentException("Use valid room number for displaying.");
+    }
     
     String displayString;
     Room selectedRoom = this.rooms[room - 1];
@@ -367,11 +475,17 @@ public class Clinic implements Organization {
   
   /** 
    * Display the specified patient's information. 
+   * This serves as a patient's toString() method.
    * 
    * @param first   The first name of the patient to display
    * @param last    The last name of the patient to display
    */
   public void displayPatient(String first, String last) {
+    
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide "
+          + "blank patient information to display patient.");
+    }
     
     String displayString = "No patient record matching name\n";
     
@@ -390,7 +504,7 @@ public class Clinic implements Organization {
   /** 
    * Display the seating chart of the clinic which includes
    * the rooms, their patients, and those patients' assigned
-   * clinicians. 
+   * clinicians. This serves as a clinic's toString() method.
    */
   public void seatingChart() {
     

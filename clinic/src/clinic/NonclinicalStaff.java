@@ -22,6 +22,12 @@ public class NonclinicalStaff extends AbstractStaff {
   public NonclinicalStaff(String job, String firstName, String lastName,
       String education, String cpr) {
     
+    if (job.isEmpty() || firstName.isEmpty() || lastName.isEmpty() 
+        || education.isEmpty() || cpr.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank "
+          + "nonclinical staff information.");
+    }
+    
     // Will receive more information about nonclinical staff
     // in future milestones
     

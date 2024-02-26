@@ -29,6 +29,14 @@ public class Patient implements Person {
   public Patient(int roomNumber, String firstName, 
       String lastName, String dob) {
     
+    if (firstName.isEmpty() || lastName.isEmpty() || dob.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank patient information.");
+    }
+    
+    if (roomNumber < 0) {
+      throw new IllegalArgumentException("Use valid room number for patient");
+    }
+    
     this.roomNumber = roomNumber;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -51,8 +59,20 @@ public class Patient implements Person {
     return this.registered;
   }
   
+  /**
+   * Assign this patient to the given room.
+   * 
+   * @param room      The room to assign the patient to
+   */
   public void assignRoom(int room) {
+    
+    if (room < 0) {
+      throw new IllegalArgumentException("Use valid room number "
+          + "for patient assignment");
+    }
+    
     this.roomNumber = room;
+    
   }
   
   /**
@@ -61,6 +81,11 @@ public class Patient implements Person {
    * @param staff     The clinical staff member to assign to this patient
    */
   public void assignStaff(ClinicalStaff staff) {
+    
+    if (staff == null) {
+      throw new IllegalArgumentException("Do not attempt to "
+          + "assign a null clinical staff to patient.");
+    }
     
     // Make a new larger array of staff and add the new one
     int newLength = this.assignedStaff != null ? this.assignedStaff.length + 1 : 1;
@@ -77,6 +102,7 @@ public class Patient implements Person {
   
   /**
    * Display the patient information.
+   * This serves as a patient's toString() method.
    * 
    * @return String   The string consisting of patient's information
    */
@@ -114,6 +140,11 @@ public class Patient implements Person {
    */
   public boolean checkName(String first, String last) {
     
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide "
+          + "blank check name information.");
+    }
+    
     return (this.firstName.equals(first) && this.lastName.equals(last));
     
   }
@@ -126,6 +157,21 @@ public class Patient implements Person {
    * @param temperature     The given temperature
    */
   public void registerVisitRecord(Date date, String complaint, double temperature) {
+    
+    if (date == null) {
+      throw new IllegalArgumentException("Do not provide null date "
+          + "in visit record.");
+    }
+    
+    if (complaint.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank complaint "
+          + "in visit record.");
+    }
+    
+    if (temperature < 0.0) {
+      throw new IllegalArgumentException("Do not provide invalid "
+          + "temperature in visit record.");
+    }
     
     VisitRecord visit = new VisitRecord(date, complaint, temperature);
     
@@ -140,6 +186,27 @@ public class Patient implements Person {
     tempVisits[newLength - 1] = visit;
     this.visits = tempVisits;
     
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Patient)) {
+      return false;
+    }
+    return this.roomNumber == ((Patient) o).roomNumber
+        && this.firstName.equals(((Patient) o).firstName)
+        && this.lastName.equals(((Patient) o).lastName)
+        && this.dob.equals(((Patient) o).dob);
+  }
+  
+  @Override
+  public int hashCode() {
+    // Objects that are equal need to return the same hash code
+    return Long.hashCode((long) 
+        (this.firstName + this.lastName + this.dob).hashCode());
   }
   
 }

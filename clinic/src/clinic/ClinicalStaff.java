@@ -35,11 +35,11 @@ public class ClinicalStaff extends AbstractStaff {
     this.npi = npi;
     this.activated = true;
     
-    if ("physician".equals(this.job)) {
+    if ("physician".equals(job)) {
       this.prefix = "Dr."; 
     }
     
-    if ("nurse".equals(this.job)) {
+    if ("nurse".equals(job)) {
       this.prefix = "Nurse";
     }
     

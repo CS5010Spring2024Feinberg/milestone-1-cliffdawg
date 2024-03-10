@@ -102,12 +102,14 @@ public class ClinicDriver {
     clinic.deactivateClinicalStaff(staff3);
     clinic.displayRoom(2);
     
+    // Readable input = new InputStreamReader(System.in);
+    // Appendable output = System.out;
     Readable input = new StringReader("Register_Clinician "
         + "physician Bob Wu doctoral 1742839402 Assign_Clinician_To_Patient Jill Kim Bob Wu "
         + "Display_Patient Jill Kim Display_Room 4 Display_All_Rooms "
         + "Register_New_Patient Joe Harker 3/1/1993 Soreness 37.1 "
         + "Display_Patient Joe Harker Assign_Patient_To_Room Joe Harker 5 Display_Room 5 "
-        + "Send_Patient_Home Joe Harker Display_Room 1 "
+        + "Send_Patient_Home Joe Harker Display_Room 5 "
         + "Register_Existing_Patient Joe Harker Foot 37.2 Display_Room 1 Quit");
     Appendable output = new StringWriter();
     ClinicController controller = new ClinicController(input, output);

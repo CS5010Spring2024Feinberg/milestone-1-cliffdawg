@@ -443,7 +443,7 @@ public class Clinic implements Organization {
     
     for (int i = 0; i < this.staff.length; i++) {
       
-      if (this.staff[i].checkName(staffFirst, staffLast)) {
+      if (this.staff[i].checkName(staffFirst, staffLast) && (this.staff[i].getPrefix() == "Dr." || this.staff[i].getPrefix() == "Nurse")) {
         assignStaff = this.staff[i];
       }
     

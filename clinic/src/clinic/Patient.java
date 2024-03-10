@@ -1,5 +1,7 @@
 package clinic;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -108,11 +110,26 @@ public class Patient implements Person {
    */
   public String display() {
     
-    // First format the patient's information, then do the same for their clinicians
+    // First format the patient's information, then their visit record,
+    // then do the same for their clinicians
     String patientDisplay = String.format("Patient name: %s %s, date of birth: %s, "
         + "room number: %d, registration status: %b\n", 
         this.firstName, this.lastName, this.dob, this.roomNumber, this.registered);
     
+    if (this.visits != null && this.visits.length != 0) {
+      
+      // Add the visit record information
+      String pattern = "MM/dd/yyyy HH:mm:ss";
+      DateFormat df = new SimpleDateFormat(pattern);
+      
+      patientDisplay += String.format("Visit date: %s, chief complaint: %s, "
+          + "body temperature: %.2f\n", 
+          df.format(this.visits[this.visits.length - 1].getDate()), 
+          this.visits[this.visits.length - 1].getComplaint(), 
+          this.visits[this.visits.length - 1].getbodyTemp());
+    
+    }
+ 
     if (this.assignedStaff != null) {
       for (int i = 0; i < this.assignedStaff.length; i++) {
         

@@ -44,6 +44,18 @@ public class VisitRecord {
     
   }
   
+  public Date getDate() {
+    return this.dateAndTime;
+  }
+  
+  public String getComplaint() {
+    return this.complaint;
+  }
+  
+  public double getbodyTemp() {
+    return this.bodyTemp;
+  }
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {

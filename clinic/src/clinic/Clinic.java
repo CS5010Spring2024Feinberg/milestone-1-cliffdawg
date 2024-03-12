@@ -325,7 +325,42 @@ public class Clinic implements Organization {
       throw new IllegalArgumentException("Do not attempt to deactivate a null staff.");
     }
     
+    for (int i = 0; i < this.staff.length; i++) {
+      
+      if (this.staff[i].checkName(staff.firstName, staff.lastName) 
+          && ("Dr.".equals(this.staff[i].getPrefix()) 
+              || "Nurse".equals(this.staff[i].getPrefix()))) {
+        ((ClinicalStaff) this.staff[i]).activate(false);;
+      }
+    
+    }
+    
     staff.activate(false);
+    
+  }
+  
+  /** 
+   * Deactivate a clinical staff using a user's given name for the clinician. 
+   * 
+   * @param first     The staff to deactivate's first name
+   * @param last      The staff to deactivate's last name
+   */
+  public void deactivateClinicalStaff(String first, String last) {
+    
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not deactivate blank clinician information.");
+    }
+    
+    for (int i = 0; i < this.staff.length; i++) {
+      
+      if (this.staff[i].checkName(first, last) 
+          && ("Dr.".equals(this.staff[i].getPrefix()) 
+              || "Nurse".equals(this.staff[i].getPrefix()))) {
+        ((ClinicalStaff) this.staff[i]).activate(false);;
+      }
+    
+    }
+    
   }
   
   /** 
@@ -405,6 +440,30 @@ public class Clinic implements Organization {
       patient.assignStaff(staff);
     }
     
+    for (int i = 0; i < this.staff.length; i++) {
+      
+      if (this.staff[i].checkName(staff.firstName, staff.lastName)) {
+        
+        for (int j = 0; j < this.patients.length; j++) {
+          
+          if (this.patients[j].checkName(patient.getFirst(), patient.getLast())) {
+            
+            if (!((ClinicalStaff) this.staff[i]).hasPatient(
+                patient.getFirst(), patient.getLast())) {
+              
+              ((ClinicalStaff) this.staff[i]).assignPatient(this.patients[j]);
+              this.patients[j].assignStaff((ClinicalStaff) this.staff[i]);
+              
+            }
+            
+          }
+        
+        }
+      
+      }
+    
+    }
+    
   }
   
   /** 
@@ -443,13 +502,106 @@ public class Clinic implements Organization {
     
     for (int i = 0; i < this.staff.length; i++) {
       
-      if (this.staff[i].checkName(staffFirst, staffLast) && (this.staff[i].getPrefix() == "Dr." || this.staff[i].getPrefix() == "Nurse")) {
+      if (this.staff[i].checkName(staffFirst, staffLast) 
+          && ("Dr.".equals(this.staff[i].getPrefix()) 
+              || "Nurse".equals(this.staff[i].getPrefix()))) {
         assignStaff = this.staff[i];
       }
     
     }
     
     this.assignStaffToPatient((ClinicalStaff) assignStaff, assignPatient);
+    
+  }
+  
+  /** 
+   * Unassign a specified clinical staff member from a specified
+   * patient in the clinic. 
+   * 
+   * @param staff      The clinical staff member to unassign from the patient
+   * @param patient    The patient who will have the clinician unassigned from them
+   */
+  public void unassignStaffFromPatient(ClinicalStaff staff, Patient patient) {
+    
+    if (staff == null || patient == null) {
+      throw new IllegalArgumentException("Do not unassign "
+          + "null staff or null patient.");
+    }
+    
+    staff.unassignPatient(patient);
+    patient.unassignStaff(staff);
+    
+    for (int i = 0; i < this.staff.length; i++) {
+      
+      if (this.staff[i].checkName(staff.firstName, staff.lastName)) {
+        
+        for (int j = 0; j < this.patients.length; j++) {
+          
+          if (this.patients[j].checkName(patient.getFirst(), patient.getLast())) {
+            
+            if (!((ClinicalStaff) this.staff[i]).hasPatientNot(
+                patient.getFirst(), patient.getLast())) {
+              
+              ((ClinicalStaff) this.staff[i]).unassignPatient(this.patients[j]);
+              this.patients[j].unassignStaff((ClinicalStaff) this.staff[i]);
+              
+            }
+            
+          }
+        
+        }
+      
+      }
+    
+    }
+    
+  }
+  
+  /** 
+   * Unassign a specified clinical staff member from a specified
+   * patient in the clinic using a user's given name for the patient
+   * and for the clinician. 
+   * 
+   * @param patientFirst      The first name of the patient
+   * @param patientLast       The last name of the patient
+   * @param staffFirst        The first name of the clinical staff member
+   * @param staffLast         The last name of the clinical staff member
+   */
+  public void unassignStaffFromPatient(String patientFirst, String patientLast, 
+      String staffFirst, String staffLast) {
+    
+    if (patientFirst.isEmpty() || patientLast.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide "
+          + "blank patient information to be unassigned from.");
+    }
+    
+    if (staffFirst.isEmpty() || staffLast.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide "
+          + "blank staff information to be unassigned from patient.");
+    }
+    
+    Patient unassignPatient = null;
+    AbstractStaff unassignStaff = null;
+    
+    for (int i = 0; i < this.patients.length; i++) {
+      
+      if (this.patients[i].checkName(patientFirst, patientLast)) {
+        unassignPatient = this.patients[i];
+      }
+    
+    }
+    
+    for (int i = 0; i < this.staff.length; i++) {
+      
+      if (this.staff[i].checkName(staffFirst, staffLast) 
+          && ("Dr.".equals(this.staff[i].getPrefix()) 
+              || "Nurse".equals(this.staff[i].getPrefix()))) {
+        unassignStaff = this.staff[i];
+      }
+    
+    }
+    
+    this.unassignStaffFromPatient((ClinicalStaff) unassignStaff, unassignPatient);
     
   }
   
@@ -519,6 +671,121 @@ public class Clinic implements Organization {
     
     displayString += "\n";
     System.out.print(displayString);
+    
+  }
+  
+  /** 
+   * List the clinical staff members who have an assigned patient
+   * that has not been sent home. For each clinical staff member, 
+   * list the currently assigned patients.
+   */
+  public void listStaffWithPatients() {
+    
+    String displayPatients = "";
+    
+    for (int i = 0; i < this.staff.length; i++) {
+      if ("Dr.".equals(this.staff[i].getPrefix()) || "Nurse".equals(this.staff[i].getPrefix())) {
+        if (((ClinicalStaff) this.staff[i]).hasPatients()) {
+          displayPatients += ((ClinicalStaff) this.staff[i]).display();
+          displayPatients += ((ClinicalStaff) this.staff[i]).displayPatients();
+        }
+      }
+    
+    }
+    
+    displayPatients += "\n";
+    System.out.print(displayPatients);
+    
+  }
+  
+  /** 
+   * List the patients who have been in the clinic before 
+   * but have not been in the clinic for more than a year.
+   */
+  public void listPatientsAbsentYear() {
+    
+    String displayPatients = "";
+    
+    for (int i = 0; i < this.patients.length; i++) {
+      
+      if (this.patients[i].absentForYear()) {
+        displayPatients += this.patients[i].display();
+      }
+    
+    }
+    
+    displayPatients += "\n";
+    System.out.print(displayPatients);
+    
+  }
+  
+  
+  /*
+   * Create a patient that has been absent for two years.
+   * */
+  public void createAbsentTwoYears() {
+    
+    Date yearsBefore = new Date(System.currentTimeMillis() - 700L*24*60*60*1000);
+    
+    Patient patient = new Patient(1, "Walter", 
+        "Bond", "1/19/1991");
+    patient.register(true);
+    this.assignPatientToRoom(patient, 1);
+    
+    // Make a new larger array of Patients and add the new one
+    int newLength = this.patients != null ? this.patients.length + 1 : 1;
+    Patient[] tempPatients = new Patient[newLength];
+    
+    for (int i = 0; i < newLength - 1; i++) {
+      tempPatients[i] = this.patients[i];
+    }
+    
+    tempPatients[newLength - 1] = patient;
+    this.patients = tempPatients;
+    
+    patient.registerVisitRecord(yearsBefore, 
+        "Flu", 37.1);
+    
+  }
+  
+  /** 
+   * List the patients who have who have had two or 
+   * more visits in the last year.
+   */
+  public void listPatientsTwoInYear() {
+    
+    String displayPatients = "";
+    
+    for (int i = 0; i < this.patients.length; i++) {
+      
+      if (this.patients[i].twoInYear()) {
+        displayPatients += this.patients[i].display();
+      }
+    
+    }
+    
+    displayPatients += "\n";
+    System.out.print(displayPatients);
+    
+  }
+  
+  /** 
+   * List all the clinical staff members, and for each clinician, 
+   * list the number of patients that they have ever been assigned to.
+   */
+  public void listStaffPatientNumber() {
+    
+    String displayStaff = "";
+    
+    for (int i = 0; i < this.staff.length; i++) {
+      if ("Dr.".equals(this.staff[i].getPrefix()) || "Nurse".equals(this.staff[i].getPrefix())) {
+        displayStaff += ((ClinicalStaff) this.staff[i]).display();
+        displayStaff += String.format("Number of patients ever assigned to: %d\n", ((ClinicalStaff) this.staff[i]).getMaxPatients());
+      }
+    }
+    
+    displayStaff += "\n";
+    System.out.print(displayStaff);
     
   }
 

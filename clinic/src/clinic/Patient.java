@@ -102,6 +102,38 @@ public class Patient implements Person {
     
   }
   
+  /** 
+   * Unassigns a clinical staff member from this patient. 
+   * 
+   * @param staff     The clinical staff member to unassign from this patient
+   */
+  public void unassignStaff(ClinicalStaff staff) {
+    
+    if (staff == null) {
+      throw new IllegalArgumentException("Do not provide null "
+          + "staff to unassign from patient.");
+    }
+    
+    // Make a new smaller array of Staff and remove this one
+    int newLength = this.assignedStaff != null ? this.assignedStaff.length - 1 : 0;
+    Person[] tempStaff = new Person[newLength];
+    
+    int i = 0;
+    
+    for (int j = 0; j < this.assignedStaff.length; j++) {
+      
+      // Skip over the Staff to remove
+      if (!this.assignedStaff[j].checkName(staff.firstName, staff.lastName)) {
+        tempStaff[i] = this.assignedStaff[j];
+        i++;
+      }
+      
+    }
+    
+    this.assignedStaff = tempStaff;
+    
+  }
+  
   /**
    * Display the patient information.
    * This serves as a patient's toString() method.
@@ -148,6 +180,21 @@ public class Patient implements Person {
   }
   
   /**
+   * Display the simple patient information.
+   * 
+   * @return String   The string consisting of patient's simple information
+   */
+  public String simpleDisplay() {
+    
+    // First format the patient's information, then their visit record,
+    // then do the same for their clinicians
+    return String.format("Patient name: %s %s, date of birth: %s, "
+        + "room number: %d, registration status: %b\n", 
+        this.firstName, this.lastName, this.dob, this.roomNumber, this.registered);
+    
+  }
+  
+  /**
    * Check the given full name with this patient's.
    * 
    * @param first      The given first name
@@ -163,6 +210,28 @@ public class Patient implements Person {
     }
     
     return (this.firstName.equals(first) && this.lastName.equals(last));
+    
+  }
+  
+  /**
+   * Return patient's first name.
+   * 
+   * @return String   The first name
+   */
+  public String getFirst() {
+    
+    return this.firstName;
+    
+  }
+  
+  /**
+   * Return patient's last name.
+   * 
+   * @return String   The last name
+   */
+  public String getLast() {
+    
+    return this.lastName;
     
   }
   
@@ -202,6 +271,42 @@ public class Patient implements Person {
     
     tempVisits[newLength - 1] = visit;
     this.visits = tempVisits;
+    
+  }
+  
+  /**
+   * Return if patient has been absent from clinic
+   * for over a year.
+   * 
+   * @return boolean   The status of whether the patient is absent
+   */
+  public boolean absentForYear() {
+    
+    if (this.visits == null || this.visits.length == 0) {
+      return false;
+    }
+    
+    Date mostRecent = this.visits[this.visits.length - 1].getDate();
+    Date yearBefore = new Date(System.currentTimeMillis() - 365L*24*60*60*1000);
+    return mostRecent.before(yearBefore);
+    
+  }
+  
+  /**
+   * Return if patient has had two or more visits
+   * in the last year.
+   * 
+   * @return boolean   The status of whether the patient has 2 or more visits in last year
+   */
+  public boolean twoInYear() {
+    
+    if (this.visits == null || this.visits.length < 2) {
+      return false;
+    }
+    
+    Date secondMostRecent = this.visits[this.visits.length - 2].getDate();
+    Date yearBefore = new Date(System.currentTimeMillis() - 365L*24*60*60*1000);
+    return secondMostRecent.after(yearBefore);
     
   }
   

@@ -50,6 +50,8 @@ public class ClinicDriver {
     // patient Tom Smith's information
     ClinicalStaff staff = new ClinicalStaff("nurse", "Sally", 
         "Johnson", "allied", "5234252163");
+    clinic.registerNewClinicalStaff("nurse", "Sally", 
+        "Johnson", "allied", "5234252163");
     clinic.assignStaffToPatient(staff, patient);
     clinic.displayRoom(3);
     
@@ -73,7 +75,11 @@ public class ClinicDriver {
     clinic.assignPatientToRoom(patient2, 2);
     ClinicalStaff staff2 = new ClinicalStaff("nurse", "Tim", 
         "Wong", "allied", "6124259163");
+    clinic.registerNewClinicalStaff("nurse", "Tim", 
+        "Wong", "allied", "6124259163");
     ClinicalStaff staff3 = new ClinicalStaff("physician", "Luke", 
+        "James", "doctoral", "8495827421");
+    clinic.registerNewClinicalStaff("physician", "Luke", 
         "James", "doctoral", "8495827421");
     clinic.assignStaffToPatient(staff2, patient2);
     clinic.assignStaffToPatient(staff3, patient2);
@@ -101,6 +107,11 @@ public class ClinicDriver {
     // one patient can be deactivated
     clinic.deactivateClinicalStaff(staff3);
     clinic.displayRoom(2);
+
+    // Create a patient that has not been in the clinic
+    // for two years to test listing patients who have
+    // been absent over a year
+    clinic.createAbsentTwoYears();
     
     // Readable input = new InputStreamReader(System.in);
     // Appendable output = System.out;
@@ -110,7 +121,12 @@ public class ClinicDriver {
         + "Register_New_Patient Joe Harker 3/1/1993 Soreness 37.1 "
         + "Display_Patient Joe Harker Assign_Patient_To_Room Joe Harker 5 Display_Room 5 "
         + "Send_Patient_Home Joe Harker Display_Room 5 "
-        + "Register_Existing_Patient Joe Harker Foot 37.2 Display_Room 1 Quit");
+        + "Register_Existing_Patient Joe Harker Foot 37.2 Display_Room 1 "
+        + "Display_All_Rooms Staff_With_Patients Deactivate_Clinician Tim Wong "
+        + "Display_Room 1 Patients_Absent_Over_1_Year "
+        + "Patients_With_2_Or_More_Visits_In_Last_Year "
+        + "Unassign_Clinician_To_Patient Jill Kim Bob Wu Display_Patient Jill Kim "
+        + "Clinicians_Lifetime_Patient_Count Quit");
     Appendable output = new StringWriter();
     ClinicController controller = new ClinicController(input, output);
     controller.runCommands(clinic);  

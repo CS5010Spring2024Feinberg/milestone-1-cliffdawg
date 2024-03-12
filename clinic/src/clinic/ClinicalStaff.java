@@ -10,6 +10,7 @@ public class ClinicalStaff extends AbstractStaff {
   private String npi;
   private Patient[] assignedPatients;
   private boolean activated;
+  private int maxPatientsAllTime;
   
   /**
    * Constructs a clinical staff member object and initializes
@@ -34,6 +35,7 @@ public class ClinicalStaff extends AbstractStaff {
     
     this.npi = npi;
     this.activated = true;
+    this.maxPatientsAllTime = 0;
     
     if ("physician".equals(job)) {
       this.prefix = "Dr."; 
@@ -57,6 +59,10 @@ public class ClinicalStaff extends AbstractStaff {
   
   public boolean isActive() {
     return this.activated;
+  }
+  
+  public int getMaxPatients() {
+    return this.maxPatientsAllTime;
   }
   
   /** 
@@ -97,6 +103,40 @@ public class ClinicalStaff extends AbstractStaff {
     tempPatients[newLength - 1] = patient;
     this.assignedPatients = tempPatients;
     
+    this.maxPatientsAllTime = Math.max(this.maxPatientsAllTime, this.assignedPatients.length);
+    
+  }
+  
+  /** 
+   * Unassigns a patient regarding this clinical staff member. 
+   * 
+   * @param patient   The patient to unassign regarding this clinical staff member
+   */
+  public void unassignPatient(Patient patient) {
+    
+    if (patient == null) {
+      throw new IllegalArgumentException("Do not provide null "
+          + "patient to unassign from clinical staff.");
+    }
+    
+    // Make a new smaller array of Patients and remove this one
+    int newLength = this.assignedPatients != null ? this.assignedPatients.length - 1 : 0;
+    Patient[] tempPatients = new Patient[newLength];
+    
+    int i = 0;
+    
+    for (int j = 0; j < this.assignedPatients.length; j++) {
+      
+      // Skip over the Patient to remove
+      if (!this.assignedPatients[j].checkName(patient.getFirst(), patient.getLast())) {
+        tempPatients[i] = this.assignedPatients[j];
+        i++;
+      }
+      
+    }
+    
+    this.assignedPatients = tempPatients;
+    
   }
   
   /** 
@@ -114,6 +154,101 @@ public class ClinicalStaff extends AbstractStaff {
         this.job, this.education.toString().toLowerCase(), this.npi);
   
     return clinicianDisplay;
+    
+  }
+  
+  /** 
+   * Display the clinical staff member's patients. 
+   * 
+   * @return String   The string consisting of the clinical staff member's patients' information
+   */
+  public String displayPatients() {
+    
+    String patientsDisplay = "";
+    
+    if (this.hasPatients()) {
+      
+      for (int i = 0; i < this.assignedPatients.length; i++) {
+        patientsDisplay += this.assignedPatients[i].simpleDisplay();
+      }
+    }
+    
+    return patientsDisplay;
+    
+  }
+  
+  /** 
+   * Check if clinical staff member has patients. 
+   * 
+   * @return boolean       Whether the clinical staff member has assigned patients
+   */
+  public boolean hasPatients() {
+    if (this.assignedPatients != null && this.assignedPatients.length != 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  /** 
+   * Check if clinical staff member has a specific patient. 
+   * 
+   * @param first     The patient's first name
+   * @param last      The patient's last name
+   * 
+   * @return boolean       Whether the clinical staff member has a specific patient
+   */
+  public boolean hasPatient(String first, String last) {
+    
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank checking patient information.");
+    }
+    
+    if (this.assignedPatients == null) {
+      return false;
+    }
+    
+    for (int i = 0; i < this.assignedPatients.length; i++) {
+      
+      if (first.equals(this.assignedPatients[i].getFirst()) 
+          && last.equals(this.assignedPatients[i].getLast())) {
+        return true;
+      }
+    
+    }
+    
+    return false;
+    
+  }
+  
+  /** 
+   * Check if clinical staff member doesn't have a specific patient. 
+   * 
+   * @param first     The patient's first name
+   * @param last      The patient's last name
+   * 
+   * @return boolean       Whether the clinical staff member doesn't have a specific patient
+   */
+  public boolean hasPatientNot(String first, String last) {
+    
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank checking no patient information.");
+    }
+    
+    if (this.assignedPatients == null) {
+      return true;
+    }
+    
+    for (int i = 0; i < this.assignedPatients.length; i++) {
+      
+      if (first.equals(this.assignedPatients[i].getFirst()) 
+          && last.equals(this.assignedPatients[i].getLast())) {
+        return false;
+      }
+    
+    }
+    
+    return true;
     
   }
   

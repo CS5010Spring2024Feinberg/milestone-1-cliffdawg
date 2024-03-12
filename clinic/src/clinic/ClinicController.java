@@ -52,7 +52,11 @@ public class ClinicController {
             + "Display_All_Rooms, Register_New_Patient, "
             + "Register_Clinician, Register_Existing_Patient, "
             + "Send_Patient_Home, Assign_Patient_To_Room, "
-            + "Assign_Clinician_To_Patient, Quit. \nEnter command: \n");
+            + "Assign_Clinician_To_Patient, Staff_With_Patients, "
+            + "Deactivate_Clinician, Patients_Absent_Over_1_Year, "
+            + "Patients_With_2_Or_More_Visits_In_Last_Year, "
+            + "Unassign_Clinician_To_Patient, "
+            + "Clinicians_Lifetime_Patient_Count, Quit. \nEnter command: \n");
       } catch (IOException ioe) {
         throw new IllegalStateException("Append failed", ioe);
       }
@@ -254,11 +258,79 @@ public class ClinicController {
           
           break;
           
+        case "Staff_With_Patients":
+          
+          clinic.listStaffWithPatients();
+          
+          break;
+          
+        case "Deactivate_Clinician":
+          
+          // Prompt user for clinician's information
+          try {
+            out.append("Enter clinician first name and last name: \n");
+          } catch (IOException ioe) {
+            throw new IllegalStateException("Append failed", ioe);
+          }
+          
+          String clinicianDeactivateFirstName = scan.next();
+          String clinicianDeactivateLastName = scan.next();
+          
+          clinic.deactivateClinicalStaff(clinicianDeactivateFirstName, 
+              clinicianDeactivateLastName);
+          
+          break;
+          
+        case "Patients_Absent_Over_1_Year":
+          
+          clinic.listPatientsAbsentYear();
+          
+          break;
+          
+        case "Patients_With_2_Or_More_Visits_In_Last_Year":
+          
+          clinic.listPatientsTwoInYear();
+          
+          break;
+          
+        case "Unassign_Clinician_To_Patient":
+          
+          // Prompt user for patient's information
+          try {
+            out.append("Enter patient first name and last name: \n");
+          } catch (IOException ioe) {
+            throw new IllegalStateException("Append failed", ioe);
+          }
+          
+          String clinicUnassignFirstName = scan.next();
+          String clinicUnassignLastName = scan.next();
+          
+          // Prompt user for clinician's information
+          try {
+            out.append("Enter clinician first name and last name: \n");
+          } catch (IOException ioe) {
+            throw new IllegalStateException("Append failed", ioe);
+          }
+          
+          String clinicianUnassignFirstName = scan.next();
+          String clinicianUnassignLastName = scan.next();
+          
+          clinic.unassignStaffFromPatient(clinicUnassignFirstName, clinicUnassignLastName, 
+              clinicianUnassignFirstName, clinicianUnassignLastName);
+          
+          break;
+        
+        case "Clinicians_Lifetime_Patient_Count":
+          
+          clinic.listStaffPatientNumber();
+          
+          break;
+          
         case "Quit":
           
           play = false;
           
-          break;
+          break;  
           
         default:
           break;

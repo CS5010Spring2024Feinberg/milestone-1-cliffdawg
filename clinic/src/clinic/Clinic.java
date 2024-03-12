@@ -780,7 +780,7 @@ public class Clinic implements Organization {
     for (int i = 0; i < this.staff.length; i++) {
       if ("Dr.".equals(this.staff[i].getPrefix()) || "Nurse".equals(this.staff[i].getPrefix())) {
         displayStaff += ((ClinicalStaff) this.staff[i]).display();
-        displayStaff += String.format("Number of patients ever assigned to: %d\n", ((ClinicalStaff) this.staff[i]).getMaxPatients());
+        displayStaff += String.format("Total number of patients this clinician was ever assigned: %d\n", ((ClinicalStaff) this.staff[i]).getMaxPatients());
       }
     }
     

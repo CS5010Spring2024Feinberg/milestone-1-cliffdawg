@@ -1,5 +1,8 @@
 package clinic;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This class represents a clinical staff member. The clinical 
  * staff member has a NPI number, an array of assigned patients,
@@ -10,7 +13,7 @@ public class ClinicalStaff extends AbstractStaff {
   private String npi;
   private Patient[] assignedPatients;
   private boolean activated;
-  private int maxPatientsAllTime;
+  private Set<String> allTimePatients;
   
   /**
    * Constructs a clinical staff member object and initializes
@@ -35,7 +38,7 @@ public class ClinicalStaff extends AbstractStaff {
     
     this.npi = npi;
     this.activated = true;
-    this.maxPatientsAllTime = 0;
+    this.allTimePatients = new HashSet<String>();
     
     if ("physician".equals(job)) {
       this.prefix = "Dr."; 
@@ -62,7 +65,7 @@ public class ClinicalStaff extends AbstractStaff {
   }
   
   public int getMaxPatients() {
-    return this.maxPatientsAllTime;
+    return this.allTimePatients.size();
   }
   
   /** 
@@ -103,7 +106,7 @@ public class ClinicalStaff extends AbstractStaff {
     tempPatients[newLength - 1] = patient;
     this.assignedPatients = tempPatients;
     
-    this.maxPatientsAllTime = Math.max(this.maxPatientsAllTime, this.assignedPatients.length);
+    this.allTimePatients.add(patient.getFirst() + patient.getLast());
     
   }
   

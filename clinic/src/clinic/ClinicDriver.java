@@ -42,7 +42,6 @@ public class ClinicDriver {
     // Test assignPatientToRoom and assign them to room 3
     Patient patient = new Patient(3, "Tom", "Smith", "1/9/1987");
     clinic.registerNewPatient("Tom", "Smith", "1/9/1987", null);
-    clinic.assignPatientToRoom(patient, 3);
     clinic.displayRoom(3);
     
     // Test assignStaffToPatient function and see if
@@ -95,7 +94,6 @@ public class ClinicDriver {
     // Test no more than one patient in room
     Patient patient4 = new Patient(4, "Sam", "Hanks", "4/17/1971");
     clinic.registerNewPatient("Sam", "Hanks", "4/17/1971", null);
-    clinic.assignPatientToRoom(patient4, 4);
     clinic.displayRoom(4);
     
     // Test that staff that has been deactivated

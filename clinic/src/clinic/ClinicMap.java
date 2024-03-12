@@ -41,7 +41,7 @@ public class ClinicMap extends JPanel {
       
       for (int j = 0; j < this.patients.length; j++) {
         
-        if (this.patients[j].getRoom() - 1 == i) {
+        if (this.patients[j].getRoom() - 1 == i && this.rooms[i].hasPatient(this.patients[j].getFirst(), this.patients[j].getLast())) {
           
           patient = String.format("%s %s", this.patients[j].getFirst(), this.patients[j].getLast());
           

@@ -116,6 +116,37 @@ public class Room implements BuildingSpace {
     return this.upperRightY;
   }
   
+  /** 
+   * Check if room has a specific patient. 
+   * 
+   * @param first     The patient's first name
+   * @param last      The patient's last name
+   * 
+   * @return boolean       Whether the room has a specific patient
+   */
+  public boolean hasPatient(String first, String last) {
+    
+    if (first.isEmpty() || last.isEmpty()) {
+      throw new IllegalArgumentException("Do not provide blank checking patient information.");
+    }
+    
+    if (this.patients == null) {
+      return false;
+    }
+    
+    for (int i = 0; i < this.patients.length; i++) {
+      
+      if (first.equals(this.patients[i].getFirst()) 
+          && last.equals(this.patients[i].getLast())) {
+        return true;
+      }
+    
+    }
+    
+    return false;
+    
+  }
+  
   /**
    * Display the room information.
    * This serves as a room's toString() method.

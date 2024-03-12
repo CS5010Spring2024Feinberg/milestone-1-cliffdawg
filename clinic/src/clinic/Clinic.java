@@ -386,7 +386,7 @@ public class Clinic implements Organization {
     
     // Assign a patient to this room if there are no other
     // patients or it is a waiting room
-    if (this.rooms[room - 1].checkOccupied() == false 
+    if (!this.rooms[room - 1].checkOccupied()
         || this.rooms[room - 1].getType().equals(RoomType.WAITING)) {
       patient.assignRoom(room);
       this.rooms[room - 1].assignPatient(patient);

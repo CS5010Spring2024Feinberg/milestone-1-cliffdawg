@@ -56,7 +56,7 @@ public class ClinicController {
             + "Deactivate_Clinician, Patients_Absent_Over_1_Year, "
             + "Patients_With_2_Or_More_Visits_In_Last_Year, "
             + "Unassign_Clinician_To_Patient, "
-            + "Clinicians_Lifetime_Patient_Count, Quit. \nEnter command: \n");
+            + "Clinicians_Lifetime_Patient_Count, Show_Map, Quit. \nEnter command: \n");
       } catch (IOException ioe) {
         throw new IllegalStateException("Append failed", ioe);
       }
@@ -323,6 +323,12 @@ public class ClinicController {
         case "Clinicians_Lifetime_Patient_Count":
           
           clinic.listStaffPatientNumber();
+          
+          break;
+          
+        case "Show_Map":
+          
+          clinic.createMap();
           
           break;
           

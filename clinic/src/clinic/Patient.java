@@ -236,6 +236,17 @@ public class Patient implements Person {
   }
   
   /**
+   * Return patient's room.
+   * 
+   * @return int   The room number
+   */
+  public int getRoom() {
+    
+    return this.roomNumber;
+    
+  }
+  
+  /**
    * Add a new visit record for this patient.
    * 
    * @param date            The given date

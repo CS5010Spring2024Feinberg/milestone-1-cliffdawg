@@ -1,10 +1,14 @@
 package clinic;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.JFrame;
 import java.util.Arrays;
 import java.util.Date;
+
 
 /**
  * This class represents a clinic. The clinic has a primary
@@ -786,6 +790,20 @@ public class Clinic implements Organization {
     
     displayStaff += "\n";
     System.out.print(displayStaff);
+    
+  }
+  
+  /** 
+   * Create a map of the clinic with the names of
+   * the patients in each room (or "empty"). 
+   */
+  public void createMap() {
+    
+    JFrame frame = new JFrame();
+    frame.getContentPane().add(new ClinicMap(this.rooms, this.patients));
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(1000, 1000);
+    frame.setVisible(true);
     
   }
 

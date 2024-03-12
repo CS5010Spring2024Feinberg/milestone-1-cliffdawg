@@ -108,6 +108,14 @@ public class Room implements BuildingSpace {
     return this.type;
   }
   
+  public int getX() {
+    return this.lowerLeftX;
+  }
+  
+  public int getY() {
+    return this.upperRightY;
+  }
+  
   /**
    * Display the room information.
    * This serves as a room's toString() method.

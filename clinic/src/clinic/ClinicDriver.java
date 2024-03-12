@@ -126,7 +126,7 @@ public class ClinicDriver {
         + "Display_Room 1 Patients_Absent_Over_1_Year "
         + "Patients_With_2_Or_More_Visits_In_Last_Year "
         + "Unassign_Clinician_To_Patient Jill Kim Bob Wu Display_Patient Jill Kim "
-        + "Clinicians_Lifetime_Patient_Count Quit");
+        + "Clinicians_Lifetime_Patient_Count Show_Map Quit");
     Appendable output = new StringWriter();
     ClinicController controller = new ClinicController(input, output);
     controller.runCommands(clinic);  

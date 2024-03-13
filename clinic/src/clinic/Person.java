@@ -7,6 +7,14 @@ package clinic;
  */
 public interface Person {
 
+  /**
+   * Check the given full name with this person's.
+   * 
+   * @param first      The given first name
+   * @param last       The given last name
+   * 
+   * @return boolean   Whether or not the given name matches
+   */
   public boolean checkName(String first, String last);
   
 }

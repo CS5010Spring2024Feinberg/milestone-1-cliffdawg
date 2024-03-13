@@ -6,19 +6,35 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * This class represents a clinic map. The map has the rooms
+ * in the clinic and the patients in the clinic.
+ */
 public class ClinicMap extends JPanel {
  
   private Room[] rooms;
   private Patient[] patients;
   
+  /**
+   * Constructs a clinic map object and initializes
+   * it to the given information.
+   *
+   * @param rooms    The rooms in the clinic
+   * @param patients   The patients in the clinic
+   */
   public ClinicMap(Room[] rooms, Patient[] patients) {
     this.rooms = rooms;
     this.patients = patients;
   }
   
+  /** 
+   * Draw the generated map.
+   * 
+   * @param g   The Graphics object to draw with
+   */
   public void paint(Graphics g) {
     Image img = generateMap();
-    g.drawImage(img, 20,20,this);
+    g.drawImage(img, 20, 20, this);
   }
 
   private Image generateMap() {
@@ -29,8 +45,8 @@ public class ClinicMap extends JPanel {
     
     // Draw the rooms
     for (int i = 0; i < this.rooms.length; i++) {
-      g.drawRect((int) (this.rooms[i].getX()/40.0 * 4000 - 2550), 
-          (int) (20 + this.rooms[i].getY()/40.0 * 500), 150, 150);
+      g.drawRect((int) (this.rooms[i].getX() / 40.0 * 4000 - 2550), 
+          (int) (20 + this.rooms[i].getY() / 40.0 * 500), 150, 150);
     }
     
     // Draw the patient names in the rooms
@@ -41,13 +57,14 @@ public class ClinicMap extends JPanel {
       
       for (int j = 0; j < this.patients.length; j++) {
         
-        if (this.patients[j].getRoom() - 1 == i && this.rooms[i].hasPatient(this.patients[j].getFirst(), this.patients[j].getLast())) {
+        if (this.patients[j].getRoom() - 1 == i 
+            && this.rooms[i].hasPatient(this.patients[j].getFirst(), this.patients[j].getLast())) {
           
           patient = String.format("%s %s", this.patients[j].getFirst(), this.patients[j].getLast());
           
           g.drawString(patient, 
-              (int) (this.rooms[i].getX()/40.0 * 4000 - 2550), 
-              (int) (40 + count * 15 + this.rooms[i].getY()/40.0 * 500));
+              (int) (this.rooms[i].getX() / 40.0 * 4000 - 2550), 
+              (int) (40 + count * 15 + this.rooms[i].getY() / 40.0 * 500));
           
           count++;
           

@@ -5,9 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.swing.JFrame;
 import java.util.Arrays;
 import java.util.Date;
+import javax.swing.JFrame;
 
 
 /**
@@ -22,6 +22,9 @@ public class Clinic implements Organization {
   private Patient[] patients;
   private AbstractStaff[] staff;
   
+  /**
+   * Constructs a clinic object.
+   */
   public Clinic() {
     // Would read file through constructor, but assignment
     // description states it needs the ability to read text file
@@ -723,13 +726,12 @@ public class Clinic implements Organization {
     
   }
   
-  
-  /*
+  /** 
    * Create a patient that has been absent for two years.
-   * */
+   */
   public void createAbsentTwoYears() {
     
-    Date yearsBefore = new Date(System.currentTimeMillis() - 700L*24*60*60*1000);
+    Date yearsBefore = new Date(System.currentTimeMillis() - 700L * 24 * 60 * 60 * 1000);
     
     Patient patient = new Patient(1, "Walter", 
         "Bond", "1/19/1991");
@@ -784,7 +786,9 @@ public class Clinic implements Organization {
     for (int i = 0; i < this.staff.length; i++) {
       if ("Dr.".equals(this.staff[i].getPrefix()) || "Nurse".equals(this.staff[i].getPrefix())) {
         displayStaff += ((ClinicalStaff) this.staff[i]).display();
-        displayStaff += String.format("Total number of patients this clinician was ever assigned: %d\n", ((ClinicalStaff) this.staff[i]).getMaxPatients());
+        displayStaff += String.format(
+            "Total number of patients this clinician was ever assigned: %d\n", 
+            ((ClinicalStaff) this.staff[i]).getMaxPatients());
       }
     }
     

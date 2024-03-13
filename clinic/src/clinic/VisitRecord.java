@@ -44,14 +44,29 @@ public class VisitRecord {
     
   }
   
+  /**
+   * Get the visit record's date.
+   * 
+   * @return Date    The date to return   
+   */
   public Date getDate() {
     return this.dateAndTime;
   }
   
+  /**
+   * Get the visit record's complaint.
+   * 
+   * @return String    The complaint to return   
+   */
   public String getComplaint() {
     return this.complaint;
   }
   
+  /**
+   * Get the visit record's body temperature.
+   * 
+   * @return double    The body temperature to return  
+   */
   public double getbodyTemp() {
     return this.bodyTemp;
   }

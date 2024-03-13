@@ -61,6 +61,11 @@ public abstract class AbstractStaff implements Person {
     
   }
   
+  /**
+   * Get the staff's prefix.
+   * 
+   * @return String    The prefix to return   
+   */
   public String getPrefix() {
     return this.prefix;
   }

@@ -57,6 +57,11 @@ public class Patient implements Person {
     this.registered = status;
   }
   
+  /**
+   * Return patient's registrations status.
+   * 
+   * @return boolean   The registration status
+   */
   public boolean isRegistered() {
     return this.registered;
   }
@@ -298,7 +303,7 @@ public class Patient implements Person {
     }
     
     Date mostRecent = this.visits[this.visits.length - 1].getDate();
-    Date yearBefore = new Date(System.currentTimeMillis() - 365L*24*60*60*1000);
+    Date yearBefore = new Date(System.currentTimeMillis() - 365L * 24 * 60 * 60 * 1000);
     return mostRecent.before(yearBefore);
     
   }
@@ -316,7 +321,7 @@ public class Patient implements Person {
     }
     
     Date secondMostRecent = this.visits[this.visits.length - 2].getDate();
-    Date yearBefore = new Date(System.currentTimeMillis() - 365L*24*60*60*1000);
+    Date yearBefore = new Date(System.currentTimeMillis() - 365L * 24 * 60 * 60 * 1000);
     return secondMostRecent.after(yearBefore);
     
   }

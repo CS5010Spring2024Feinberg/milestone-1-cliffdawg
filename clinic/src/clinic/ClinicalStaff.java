@@ -50,20 +50,32 @@ public class ClinicalStaff extends AbstractStaff {
     
   }
   
-  /* 
+  /** 
    * Make a separate activate function for clinical staff because
    * clinical staff can be deactivated while remaining in system.
    * Move a common registration function to the Person interface
-   * in the future if NonclinicalStaff also ends up needing one 
+   * in the future if NonclinicalStaff also ends up needing one.  
+   * 
+   * @param status   The status to set activation attribute
    */
   public void activate(boolean status) {
     this.activated = status;
   }
   
+  /** 
+   * Check whether this clinician is active.
+   * 
+   * @return boolean   Whether this clinician is active
+   */
   public boolean isActive() {
     return this.activated;
   }
   
+  /** 
+   * Get the count of all the patients clinician has ever had.
+   * 
+   * @return int   The count of all-time patients
+   */
   public int getMaxPatients() {
     return this.allTimePatients.size();
   }

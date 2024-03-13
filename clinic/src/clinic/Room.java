@@ -104,14 +104,29 @@ public class Room implements BuildingSpace {
     
   }
   
+  /**
+   * Get the room type.
+   * 
+   * @return RoomType    The room's type   
+   */
   public RoomType getType() {
     return this.type;
   }
   
+  /**
+   * Get the room's x coordinate to draw.
+   * 
+   * @return int    The x coordinate to draw   
+   */
   public int getX() {
     return this.lowerLeftX;
   }
   
+  /**
+   * Get the room's y. coordinate to draw.
+   * 
+   * @return int    The y coordinate to draw   
+   */
   public int getY() {
     return this.upperRightY;
   }
